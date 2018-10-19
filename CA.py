@@ -19,21 +19,24 @@ def rule(n):
     
     return s
 
-# 对序列sequence按规则n(0<=n<=255)演化m次
-def evolve(sequence, n, m):
+# 对序列0-1表示的序列sequence按规则n(0<=n<=255)演化
+# 返回演化后的start~end步的序列
+def evolve(sequence, n, start, end):
     p = ['111','110','101','100','011','010','001','000']
     r = rule(n)
     ca = []
     ca.append(sequence)
     es = sequence
-    for i in range(m):
+    
+    for i in range(end):
         seq = es[-1] + es + es[0]
         es = ''
         for k in range( len(seq) - 2):
             nb = seq[k:k+3]
             indx = p.index(nb)
             es = es + r[indx]
-        ca.append(es)
+        if i >= start:
+            ca.append(es)
     return ca       
     
 
@@ -50,10 +53,10 @@ def CAImage(ca):
             
 def main():
     s = '101110100'
-    ca = evolve(s,84,4)
-    img = CAImage(ca)
-    img.save('t.jpg','jpeg')
-    
+    ca = evolve(s,84,0,10)
+    print(ca)
+    ca = evolve(s,84,5,9)
+    print(ca)
 
 if __name__ == "__main__":
     main()
