@@ -6,6 +6,16 @@ Created on Thu Oct 18 15:13:34 2018
 """
 import numpy as np
 from PIL import Image
+
+binaryCode=[    '00001', '00100', '00110', '01100',
+                '01110', '10000', '10011', '10101',
+                '11010', '11101', '00011', '00101', 
+                '01001', '01011', '01111', '10010',
+                '10100', '11001', '11100', '11110',
+                '00000'
+                ]
+text='PQRYWTMNVELHSFCIKADGX'
+
 def rule(n):
     b = list(bin(n))
     b = b[2:]
@@ -37,8 +47,25 @@ def evolve(sequence, n, start, end):
             es = es + r[indx]
         if i >= start:
             ca.append(es)
-    return ca       
-    
+    if start == 0:
+        return ca 
+    else:
+        return ca[1:]
+
+def CAMatrix(protseq, n, start, end):
+    bs = ''
+    for aa in protseq:
+        i = text.index(aa)
+        bs = bs + binaryCode[i]
+    ca = evolve(bs, n, start, end)   
+    row = len(ca)
+    col = len(ca[0])
+
+    mat = np.ndarray( (row, col))
+    for i in range(row):
+        for j in range(col):
+            mat[i,j] = float( ca[i][j])
+    return mat
 
 def CAImage(ca):
     row = len( ca)
@@ -50,13 +77,28 @@ def CAImage(ca):
     img = Image.fromarray(image*255, 'L')
     return img
            
-            
+
+# 从蛋白质序列生成元胞自动机图像
+# protseq: 蛋白质序列
+# r: 元胞自动机演化规则
+# start, end：图像仅保存从start到end之间的演化结果
+def generateCAImageOfSeq(protseq,r,start,end):
+    bs = ''
+    for aa in protseq:
+        i = text.index(aa)
+        bs = bs + binaryCode[i]
+    ca = evolve(bs,r,start,end)
+    img = CAImage(ca)
+    return img
+
+def createCAImageFileOfSeq(protseq, r, start, end, imageFile):
+    img = generateCAImageOfSeq(protseq,r,start,end)
+    img.save(imageFile,'jpeg')
+    
 def main():
-    s = '101110100'
-    ca = evolve(s,84,0,10)
-    print(ca)
-    ca = evolve(s,84,5,9)
-    print(ca)
+    s = 'MRGSHHHHHHTDPHASSVPLEWPLSSQSGSYELRIEVQPKPHHRAHYETEGSRGAVKAPTGGHPVVQLHGYMENKPLGLQIFIGTADERILKPHAFYQVHRITGKTVTTTSYEKIVGNTKVLEIPLEPKNNMRATIDCAGILKLRNADIELRKGETDIGRKNTRVRLVFRVHIPESSGRIVSLQTASNPIECSQRSAHELPMVERQDTDSCLVYGGQQMILTGQNFTSESKVVFTEKTTDGQQIWEMEATVDKDKSQPNMLFVEIPEYRNKHIRTPVKVNFYVINGKRKRSQPQHFTYHPV'
+    print(s)
+    createCAImageFileOfSeq(s,84,100,200,'1A02_N.jpg')
 
 if __name__ == "__main__":
     main()
