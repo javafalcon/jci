@@ -14,7 +14,7 @@ binaryCode=[    '00001', '00100', '00110', '01100',
                 '10100', '11001', '11100', '11110',
                 '00000'
                 ]
-text='PQRYWTMNVELHSFCIKADGX'
+text='PQRYWTMNVELHSFCIKADG'
 
 def rule(n):
     b = list(bin(n))
@@ -55,8 +55,12 @@ def evolve(sequence, n, start, end):
 def CAMatrix(protseq, n, start, end):
     bs = ''
     for aa in protseq:
-        i = text.index(aa)
-        bs = bs + binaryCode[i]
+        try:
+            i = text.index(aa)
+            bs = bs + binaryCode[i]
+        except ValueError:
+            bs = bs + '00000' 
+        
     ca = evolve(bs, n, start, end)   
     row = len(ca)
     col = len(ca[0])
@@ -88,8 +92,8 @@ def generateCAImageOfSeq(protseq,r,start,end):
         try:
             i = text.index(aa)
             bs = bs + binaryCode[i]
-        except:
-            print(aa)
+        except ValueError:
+            bs = bs + '00000'
     ca = evolve(bs,r,start,end)
     img = CAImage(ca)
     return img

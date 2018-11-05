@@ -26,7 +26,7 @@ n_hidden_1 = 512  # 第一隐层神经元数量
 n_hidden_2 = 256  # 第二
 n_hidden_3 = 128  # 第三
 n_hidden_4 = 32 # 第四
-n_input = 784  # 输入
+n_input = 101*155  # 输入
 
 # tf Graph输入
 X = tf.placeholder("float32", [None, n_input])
