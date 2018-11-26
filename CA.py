@@ -80,7 +80,29 @@ def CAImage(ca):
             image[i,j] = int( ca[i][j])
     img = Image.fromarray(image*255, 'L')
     return img
-           
+ 
+def CAArray(ca, shape):
+    row = len( ca)
+    col = len( ca[0])     
+    image = np.ndarray((row,col), dtype=np.int)
+    for i in range( row):
+        for j in range( col):
+            image[i,j] = int( ca[i][j])
+    img = Image.fromarray(image, 'L')
+    img = img.resize(shape)
+    return img
+
+def generateCAArrayOfSeq(protseq,r,start,end,shape):
+    bs = ''
+    for aa in protseq:
+        try:
+            i = text.index(aa)
+            bs = bs + binaryCode[i]
+        except ValueError:
+            bs = bs + '00000'
+    ca = evolve(bs,r,start,end)
+    img = CAArray(ca,shape)
+    return np.array(img)
 
 # 从蛋白质序列生成元胞自动机图像
 # protseq: 蛋白质序列
@@ -98,16 +120,18 @@ def generateCAImageOfSeq(protseq,r,start,end):
     img = CAImage(ca)
     return img
 
+
 def createCAImageFileOfSeq(protseq, r, start, end, imageFile):
     img = generateCAImageOfSeq(protseq,r,start,end)
     img.save(imageFile,'jpeg')
-    
+'''    
 def main():
     s = 'MRBGSHHHHHHTDPHASSVPLEWPLSSQSGSYELRIEVQPKPHHRAHYETEGSRGAVKAPTGGHPVVQLHGYMENKPLGLQIFIGTADERILKPHAFYQVHRITGKTVTTTSYEKIVGNTKVLEIPLEPKNNMRATIDCAGILKLRNADIELRKGETDIGRKNTRVRLVFRVHIPESSGRIVSLQTASNPIECSQRSAHELPMVERQDTDSCLVYGGQQMILTGQNFTSESKVVFTEKTTDGQQIWEMEATVDKDKSQPNMLFVEIPEYRNKHIRTPVKVNFYVINGKRKRSQPQHFTYHPV'
     print(s)
-    createCAImageFileOfSeq(s,84,100,200,'E:\\test.jpg')
+    print(generateCAImageOfSeq(s,84,100,200))
 
 if __name__ == "__main__":
     main()
-        
-        
+'''
+s = 'MRBGSHHHHHHTDPHASSVPLEWPLSSQSGSYELRIEVQPKPHHRAHYETEGSRGAVKAPTGGHPVVQLHGYMENKPLGLQIFIGTADERILKPHAFYQVHRITGKTVTTTSYEKIVGNTKVLEIPLEPKNNMRATIDCAGILKLRNADIELRKGETDIGRKNTRVRLVFRVHIPESSGRIVSLQTASNPIECSQRSAHELPMVERQDTDSCLVYGGQQMILTGQNFTSESKVVFTEKTTDGQQIWEMEATVDKDKSQPNMLFVEIPEYRNKHIRTPVKVNFYVINGKRKRSQPQHFTYHPV'
+m = generateCAArrayOfSeq(s,84,100,200,(28,28))        
