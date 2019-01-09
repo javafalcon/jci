@@ -4,30 +4,20 @@ Created on Wed Jan  9 13:48:34 2019
 
 @author: Administrator
 """
-import tflearn
-import tensorflow as tf
-from tflearn.data_utils import shuffle, to_categorical
+
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.normalization import local_response_normalization
 from tflearn.layers.normalization import batch_normalization
 from tflearn.layers.conv import conv_2d, max_pool_2d
-from tflearn.layers.estimator import regression
-from tflearn.data_preprocessing import ImagePreprocessing
-from tflearn.data_augmentation import ImageAugmentation
-from sklearn.model_selection import LeaveOneOut, KFold
-from sklearn.metrics import accuracy_score, auc, roc_curve, matthews_corrcoef
 
 class CNNnet:
-    def _init_(self, width, height, channels, classes, 
-               finalAct="softmax", lossFun='categorical_crossentropy',
-               lr=0.001):
+    def __init__(self, width, height, channels, classes, 
+               finalAct="softmax"):
         self.width = width
         self.height = height
         self.channels = channels
         self.classes = classes
         self.finalAct = finalAct
-        self.lossFun = lossFun
-        self.lr = lr
         
     def create_Alex(self):
         network = input_data(shape=[None, self.width, self.height, self.channels])
@@ -47,7 +37,7 @@ class CNNnet:
         network = fully_connected(network, 4096, activation='tanh')
         network = dropout(network, 0.5)
         network = fully_connected(network, self.classes, activation=self.finalAct)
-        
+
         return network   
     
     def create_VGG(self):
@@ -108,7 +98,7 @@ class CNNnet:
         
         network = fully_connected(network, 1024, activation='relu')
         network = dropout(network, 0.5)
-        network = fully_connected(network, self.classes, activatioin=self.finalAct)
+        network = fully_connected(network, self.classes, activation=self.finalAct)
         
         return network
         
