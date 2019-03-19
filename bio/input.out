@@ -1,0 +1,453 @@
+# hmmsearch :: search profile(s) against a sequence database
+# HMMER 3.1b2 (February 2015); http://hmmer.org/
+# Copyright (C) 2015 Howard Hughes Medical Institute.
+# Freely distributed under the GNU General Public License (GPLv3).
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query HMM file:                  input.hmm
+# target sequence database:        e:/uniprot_sprot.fasta
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       input  [M=116]
+Scores for complete sequences (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Sequence              Description
+    ------- ------ -----    ------- ------ -----   ---- --  --------              -----------
+    3.8e-76  257.6  10.6    4.3e-76  257.5  10.6    1.0  1  sp|P15160|TRHBN_PARCA  Group 1 truncated hemoglobin trHbN OS=
+    5.9e-21   79.7   0.0    7.1e-21   79.5   0.0    1.0  1  sp|P17724|TRHBN_TETPY  Group 1 truncated hemoglobin OS=Tetrah
+      8e-20   76.1   0.0      1e-19   75.7   0.0    1.1  1  sp|Q08753|TRHN1_CHLMO  Group 1 truncated hemoglobin LI637 OS=
+    8.2e-20   76.0   0.0    9.8e-20   75.8   0.0    1.0  1  sp|P0A593|TRHBN_MYCBO  Group 1 truncated hemoglobin GlbN OS=M
+    8.2e-20   76.0   0.0    9.8e-20   75.8   0.0    1.0  1  sp|P0A594|TRHBN_MYCSM  Group 1 truncated hemoglobin GlbN OS=M
+    8.2e-20   76.0   0.0    9.8e-20   75.8   0.0    1.0  1  sp|P9WN24|TRHBN_MYCTO  Group 1 truncated hemoglobin GlbN OS=M
+    8.2e-20   76.0   0.0    9.8e-20   75.8   0.0    1.0  1  sp|P9WN25|TRHBN_MYCTU  Group 1 truncated hemoglobin GlbN OS=M
+    1.1e-19   75.6   0.0    1.3e-19   75.4   0.0    1.0  1  sp|Q03459|TRHBN_TETTH  Group 1 truncated hemoglobin OS=Tetrah
+    1.2e-18   72.3   0.1    1.4e-18   72.1   0.1    1.0  1  sp|Q740T9|TRHBN_MYCPA  Group 1 truncated hemoglobin GlbN OS=M
+      3e-18   71.0   0.2    3.9e-18   70.6   0.2    1.2  1  sp|P52334|TRHN2_CHLMO  Group 1 truncated hemoglobin LI410 OS=
+    1.3e-13   56.0   0.0    1.5e-13   55.8   0.0    1.0  1  sp|P73925|TRHBN_SYNY3  Group 1 truncated hemoglobin GlbN OS=S
+    2.2e-13   55.3   0.0    2.5e-13   55.1   0.0    1.0  1  sp|P52335|TRHBN_NOSSN  Group 1 truncated hemoglobin GlbN OS=N
+    1.4e-12   52.7   0.0    1.6e-12   52.6   0.0    1.0  1  sp|Q00812|TRHBN_NOSCO  Group 1 truncated hemoglobin GlbN OS=N
+  ------ inclusion threshold ------
+       0.59   15.2   0.2    1.4e+02    7.6   0.0    2.2  2  sp|Q6VU70|APL3_HYPCU   Apolipophorin-3 OS=Hyphantria cunea OX
+       0.61   15.2   0.0       0.69   15.0   0.0    1.2  1  sp|Q9CC59|TRHBO_MYCLE  Group 2 truncated hemoglobin GlbO OS=M
+       0.89   14.6   0.2        4.6   12.4   0.0    2.2  3  sp|Q9PPX6|PYRH_UREPA   Uridylate kinase OS=Ureaplasma parvum 
+       0.91   14.6   0.0          1   14.5   0.0    1.1  1  sp|P0A596|TRHBO_MYCBO  Group 2 truncated hemoglobin GlbO OS=M
+       0.91   14.6   0.0          1   14.5   0.0    1.1  1  sp|P9WN22|TRHBO_MYCTO  Group 2 truncated hemoglobin GlbO OS=M
+       0.91   14.6   0.0          1   14.5   0.0    1.1  1  sp|P9WN23|TRHBO_MYCTU  Group 2 truncated hemoglobin GlbO OS=M
+        1.6   13.8   0.1        4.1   12.5   0.1    1.7  1  sp|Q4ZZF5|SYR_PSEU2    Arginine--tRNA ligase OS=Pseudomonas s
+          3   12.9   0.5          3   12.9   0.5    1.9  2  sp|A8LXW8|RUVA_SALAI   Holliday junction ATP-dependent DNA he
+        3.2   12.9   0.0    1.9e+02    7.1   0.0    2.6  2  sp|B5Y6V5|DNLJ_COPPD   DNA ligase OS=Coprothermobacter proteo
+        3.7   12.7   0.5        9.6   11.3   0.1    1.8  2  sp|P08658|LIP_PSEFR    Triacylglycerol lipase OS=Pseudomonas 
+        4.5   12.4   0.0         10   11.3   0.0    1.7  1  sp|O61463|RLA2_CRYST   60S acidic ribosomal protein P2 OS=Cry
+
+
+Domain annotation for each sequence (and alignments):
+>> sp|P15160|TRHBN_PARCA  Group 1 truncated hemoglobin trHbN OS=Paramecium caudatum OX=5885 PE=1 SV=2
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  257.5  10.6   1.8e-80   4.3e-76       1     116 []       2     117 .]       2     117 .] 1.00
+
+  Alignments for each domain:
+  == domain 1  score: 257.5 bits;  conditional E-value: 1.8e-80
+                  input   1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsa 88 
+                            slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsa
+  sp|P15160|TRHBN_PARCA   2 SLFEQLGGQAAVQAVTAQFYANIQADATVATFFNGIDMPNQTNKTAAFLCAALGGPNAWTGRNLKEVHANMGVSNAQFTTVIGHLRSA 89 
+                            89************************************************************************************** PP
+
+                  input  89 ltgagvaaalveqtvavaetvrgdvvtv 116
+                            ltgagvaaalveqtvavaetvrgdvvtv
+  sp|P15160|TRHBN_PARCA  90 LTGAGVAAALVEQTVAVAETVRGDVVTV 117
+                            ***************************8 PP
+
+>> sp|P17724|TRHBN_TETPY  Group 1 truncated hemoglobin OS=Tetrahymena pyriformis OX=5908 PE=1 SV=1
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   79.5   0.0     3e-25   7.1e-21       2     113 ..       7     118 ..       6     120 .. 0.98
+
+  Alignments for each domain:
+  == domain 1  score: 79.5 bits;  conditional E-value: 3e-25
+                  input   2 lfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsal 89 
+                            ++e+lgg+ a++a    fy ++ ad  v  ff+  dm  qt++ + fl   lggpn + g+n+ e h  m + n  f ++i  l ++l
+  sp|P17724|TRHBN_TETPY   7 IYEKLGGENAMKAAVPLFYKKVLADERVKHFFKNTDMDHQTKQQTDFLTMLLGGPNHYKGKNMTEAHKGMNLQNLHFDAIIENLAATL 94 
+                            79************************************************************************************** PP
+
+                  input  90 tgagvaaalveqtvavaetvrgdv 113
+                               gv+ a+++++  v e  r d+
+  sp|P17724|TRHBN_TETPY  95 KELGVTDAVINEAAKVIEHTRKDM 118
+                            ********************9997 PP
+
+>> sp|Q08753|TRHN1_CHLMO  Group 1 truncated hemoglobin LI637 OS=Chlamydomonas moewusii OX=3054 GN=LI637 PE=1 SV=1
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   75.7   0.0   4.5e-24     1e-19       1     114 [.      44     159 ..      44     161 .. 0.96
+
+  Alignments for each domain:
+  == domain 1  score: 75.7 bits;  conditional E-value: 4.5e-24
+                  input   1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanm..gvsnaqfttvighlr 86 
+                            slf +lgg+ av+a   +fy +i ad tv+t+f   dm  q  k  afl+ algg   w g++++  h ++   +s+  f +v  hl 
+  sp|Q08753|TRHN1_CHLMO  44 SLFAKLGGREAVEAAVDKFYNKIVADPTVSTYFSNTDMKVQRSKQFAFLAYALGGASEWKGKDMRTAHKDLvpHLSDVHFQAVARHLS 131
+                            89*******************************************************************984459************* PP
+
+                  input  87 saltgagvaaalveqtvavaetvrgdvv 114
+                             +lt  gv    + +++av  + r +v+
+  sp|Q08753|TRHN1_CHLMO 132 DTLTELGVPPEDITDAMAVVASTRTEVL 159
+                            *******************999999986 PP
+
+>> sp|P0A593|TRHBN_MYCBO  Group 1 truncated hemoglobin GlbN OS=Mycobacterium bovis (strain ATCC BAA-935 / AF2122/97) OX=
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   75.8   0.0   4.2e-24   9.8e-20       1     109 [.      14     122 ..      14     128 .. 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 75.8 bits;  conditional E-value: 4.2e-24
+                  input   1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsa 88 
+                            s+++++gg  a++ v  +fy  + ad  +++ff g +m     k   f++aalggp+ +tg  +k+vh   g++   f+ v ghl  a
+  sp|P0A593|TRHBN_MYCBO  14 SIYDKIGGHEAIEVVVEDFYVRVLADDQLSAFFSGTNMSRLKGKQVEFFAAALGGPEPYTGAPMKQVHQGRGITMHHFSLVAGHLADA 101
+                            7899************************************************************************************ PP
+
+                  input  89 ltgagvaaalveqtvavaetv 109
+                            lt agv +  + + + v   +
+  sp|P0A593|TRHBN_MYCBO 102 LTAAGVPSETITEILGVIAPL 122
+                            ******998887777776555 PP
+
+>> sp|P0A594|TRHBN_MYCSM  Group 1 truncated hemoglobin GlbN OS=Mycobacterium smegmatis OX=1772 GN=glbN PE=3 SV=1
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   75.8   0.0   4.2e-24   9.8e-20       1     109 [.      14     122 ..      14     128 .. 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 75.8 bits;  conditional E-value: 4.2e-24
+                  input   1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsa 88 
+                            s+++++gg  a++ v  +fy  + ad  +++ff g +m     k   f++aalggp+ +tg  +k+vh   g++   f+ v ghl  a
+  sp|P0A594|TRHBN_MYCSM  14 SIYDKIGGHEAIEVVVEDFYVRVLADDQLSAFFSGTNMSRLKGKQVEFFAAALGGPEPYTGAPMKQVHQGRGITMHHFSLVAGHLADA 101
+                            7899************************************************************************************ PP
+
+                  input  89 ltgagvaaalveqtvavaetv 109
+                            lt agv +  + + + v   +
+  sp|P0A594|TRHBN_MYCSM 102 LTAAGVPSETITEILGVIAPL 122
+                            ******998887777776555 PP
+
+>> sp|P9WN24|TRHBN_MYCTO  Group 1 truncated hemoglobin GlbN OS=Mycobacterium tuberculosis (strain CDC 1551 / Oshkosh) OX
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   75.8   0.0   4.2e-24   9.8e-20       1     109 [.      14     122 ..      14     128 .. 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 75.8 bits;  conditional E-value: 4.2e-24
+                  input   1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsa 88 
+                            s+++++gg  a++ v  +fy  + ad  +++ff g +m     k   f++aalggp+ +tg  +k+vh   g++   f+ v ghl  a
+  sp|P9WN24|TRHBN_MYCTO  14 SIYDKIGGHEAIEVVVEDFYVRVLADDQLSAFFSGTNMSRLKGKQVEFFAAALGGPEPYTGAPMKQVHQGRGITMHHFSLVAGHLADA 101
+                            7899************************************************************************************ PP
+
+                  input  89 ltgagvaaalveqtvavaetv 109
+                            lt agv +  + + + v   +
+  sp|P9WN24|TRHBN_MYCTO 102 LTAAGVPSETITEILGVIAPL 122
+                            ******998887777776555 PP
+
+>> sp|P9WN25|TRHBN_MYCTU  Group 1 truncated hemoglobin GlbN OS=Mycobacterium tuberculosis (strain ATCC 25618 / H37Rv) OX
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   75.8   0.0   4.2e-24   9.8e-20       1     109 [.      14     122 ..      14     128 .. 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 75.8 bits;  conditional E-value: 4.2e-24
+                  input   1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsa 88 
+                            s+++++gg  a++ v  +fy  + ad  +++ff g +m     k   f++aalggp+ +tg  +k+vh   g++   f+ v ghl  a
+  sp|P9WN25|TRHBN_MYCTU  14 SIYDKIGGHEAIEVVVEDFYVRVLADDQLSAFFSGTNMSRLKGKQVEFFAAALGGPEPYTGAPMKQVHQGRGITMHHFSLVAGHLADA 101
+                            7899************************************************************************************ PP
+
+                  input  89 ltgagvaaalveqtvavaetv 109
+                            lt agv +  + + + v   +
+  sp|P9WN25|TRHBN_MYCTU 102 LTAAGVPSETITEILGVIAPL 122
+                            ******998887777776555 PP
+
+>> sp|Q03459|TRHBN_TETTH  Group 1 truncated hemoglobin OS=Tetrahymena thermophila OX=5911 PE=2 SV=1
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   75.4   0.0   5.6e-24   1.3e-19       2     113 ..       7     118 ..       6     120 .. 0.98
+
+  Alignments for each domain:
+  == domain 1  score: 75.4 bits;  conditional E-value: 5.6e-24
+                  input   2 lfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsal 89 
+                            +fe+lggqaa+ a    fy ++ ad  v  +f+  +m  q+++   fl   lggpn + g+n+ e h  m + n+ f ++i  l ++l
+  sp|Q03459|TRHBN_TETTH   7 VFEKLGGQAAMHAAVPLFYKKVLADDRVKHYFKNTNMEHQAKQQEDFLTMLLGGPNHYKGKNMAEAHKGMNLQNSHFDAIIENLAATL 94 
+                            7*************************************************************************************** PP
+
+                  input  90 tgagvaaalveqtvavaetvrgdv 113
+                               gv+  ++ ++  v e  r d 
+  sp|Q03459|TRHBN_TETTH  95 KELGVSDQIIGEAAKVIEHTRKDC 118
+                            ******************999986 PP
+
+>> sp|Q740T9|TRHBN_MYCPA  Group 1 truncated hemoglobin GlbN OS=Mycobacterium paratuberculosis (strain ATCC BAA-968 / K-1
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   72.1   0.1     6e-23   1.4e-18       1     101 [.      14     114 ..      14     128 .. 0.94
+
+  Alignments for each domain:
+  == domain 1  score: 72.1 bits;  conditional E-value: 6e-23
+                  input   1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsa 88 
+                            s+++++gg  a++ v  +fy  + ad  ++ ff g +m     k   f++aalggp  +tg  +k+vh   g++   f  v ghl  a
+  sp|Q740T9|TRHBN_MYCPA  14 SIYDRIGGHEALEVVVENFYVRVLADEQLSGFFTGTNMNRLKGKQVEFFAAALGGPHPYTGAPMKQVHQGRGITMHHFGLVAGHLADA 101
+                            7899************************************************************************************ PP
+
+                  input  89 ltgagvaaalveq 101
+                            lt agv +  v +
+  sp|Q740T9|TRHBN_MYCPA 102 LTAAGVPSETVSE 114
+                            ******9877765 PP
+
+>> sp|P52334|TRHN2_CHLMO  Group 1 truncated hemoglobin LI410 OS=Chlamydomonas moewusii OX=3054 GN=LI410 PE=2 SV=1
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   70.6   0.2   1.7e-22   3.9e-18       1     114 [.      44     159 ..      44     161 .. 0.94
+
+  Alignments for each domain:
+  == domain 1  score: 70.6 bits;  conditional E-value: 1.7e-22
+                  input   1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanm..gvsnaqfttvighlr 86 
+                            slf +lgg+ av+a   +fy ++ ad tv+ ff   dm  q  k  afl+ algg   w g++++  h ++   +++  f +v+ hl 
+  sp|P52334|TRHN2_CHLMO  44 SLFAKLGGREAVEAAVDKFYNKVVADPTVSVFFSKTDMKVQRSKQFAFLAYALGGAAEWKGKDMRTAHKDLvpHLTDVHFQAVVRHLS 131
+                            89*******************************************************************984458999********** PP
+
+                  input  87 saltgagvaaalveqtvavaetvrgdvv 114
+                             +l+  gv+   + +++av  + + +v+
+  sp|P52334|TRHN2_CHLMO 132 DTLAELGVTPGDIADAMAVVASTKTEVL 159
+                            **********999999999888887775 PP
+
+>> sp|P73925|TRHBN_SYNY3  Group 1 truncated hemoglobin GlbN OS=Synechocystis sp. (strain PCC 6803 / Kazusa) OX=1111708 G
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   55.8   0.0   6.6e-18   1.5e-13       2     107 ..       4     113 ..       3     123 .. 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 55.8 bits;  conditional E-value: 6.6e-18
+                  input   2 lfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevha....nmgvsnaqfttvighl 85 
+                            l+e+lgg +av+    +fy  +  d  +  ff  +dm +q  +  afl  a+gg + + gr ++e h     n g+    f +v   l
+  sp|P73925|TRHBN_SYNY3   4 LYEKLGGTTAVDLAVDKFYERVLQDDRIKHFFADVDMAKQRAHQKAFLTYAFGGTDKYDGRYMREAHKelveNHGLNGEHFDAVAEDL 91 
+                            89************************************************************9999863333789999********** PP
+
+                  input  86 rsaltgagvaaalveqtvavae 107
+                             ++l   gv   l+ +  ava 
+  sp|P73925|TRHBN_SYNY3  92 LATLKEMGVPEDLIAEVAAVAG 113
+                            **************99999985 PP
+
+>> sp|P52335|TRHBN_NOSSN  Group 1 truncated hemoglobin GlbN OS=Nostoc sp. (strain MUN 8820) OX=55397 GN=glbN PE=3 SV=1
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   55.1   0.0   1.1e-17   2.5e-13       2     101 ..       4     103 ..       3     117 .. 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 55.1 bits;  conditional E-value: 1.1e-17
+                  input   2 lfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsal 89 
+                            l++++ggq a++ v  +++  i +d+ +a +f g dm +q n+  afl   + gp+ + gr + + ha + + +  f ++  hl  a+
+  sp|P52335|TRHBN_NOSSN   4 LYDNIGGQPAIEQVVDELHKRIATDSLLAPIFAGTDMAKQRNHLVAFLGQIFEGPKQYGGRPMDKTHAGLNLQQPHFDAIAKHLGEAM 91 
+                            899************************************************************************************* PP
+
+                  input  90 tgagvaaalveq 101
+                            +  gv+a   + 
+  sp|P52335|TRHBN_NOSSN  92 AVRGVSAEDTKA 103
+                            *****9865544 PP
+
+>> sp|Q00812|TRHBN_NOSCO  Group 1 truncated hemoglobin GlbN OS=Nostoc commune OX=1178 GN=glbN PE=3 SV=1
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   52.6   0.0   6.7e-17   1.6e-12       2     102 ..       4     104 ..       3     117 .. 0.91
+
+  Alignments for each domain:
+  == domain 1  score: 52.6 bits;  conditional E-value: 6.7e-17
+                  input   2 lfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsal 89 
+                            l++++ggq a++ v  +++  i +d+ +a +f g dm +q n+  afl+  + gp+ + gr + + ha + + +  f ++  hl   +
+  sp|Q00812|TRHBN_NOSCO   4 LYDNIGGQPAIEQVVDELHKRIATDSLLAPVFAGTDMVKQRNHLVAFLAQIFEGPKQYGGRPMDKTHAGLNLQQPHFDAIAKHLGERM 91 
+                            899*********************************************************************************9999 PP
+
+                  input  90 tgagvaaalveqt 102
+                            +  gv+a   + +
+  sp|Q00812|TRHBN_NOSCO  92 AVRGVSAENTKAA 104
+                            9999998655544 PP
+
+>> sp|Q6VU70|APL3_HYPCU  Apolipophorin-3 OS=Hyphantria cunea OX=39466 PE=2 SV=1
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?    7.6   0.0    0.0059   1.4e+02      26     104 ..      23     102 ..      10     114 .. 0.69
+   2 ?    5.9   0.0     0.019   4.5e+02      37      80 ..     117     160 ..     113     182 .. 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 7.6 bits;  conditional E-value: 0.0059
+                 input  26 datvatffngidm.pnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrsaltga.gvaaalveqtva 104
+                           da +a f++ ++    + +kt +    a+   +     n k v+    v   q++t+   l+salt a g a   +eqt  
+  sp|Q6VU70|APL3_HYPCU  23 DAPLANFLQDLEKrAADIQKTFSEQFQAISNSKNVQDVN-KAVKESSDVVLKQLSTLSSSLQSALTDAnGKAKEALEQTRQ 102
+                           666666666665413445566555555555544444433.677888889999**************984677788899865 PP
+
+  == domain 2  score: 5.9 bits;  conditional E-value: 0.019
+                 input  37 dmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqftt 80 
+                           d+ +q+n+    l aa+      t +  kev anm  +n +++ 
+  sp|Q6VU70|APL3_HYPCU 117 DVEKQANQLRDKLQAAVQSTLQETQKLAKEVAANMEQTNEKLAP 160
+                           67789999999999****9999**************99988765 PP
+
+>> sp|Q9CC59|TRHBO_MYCLE  Group 2 truncated hemoglobin GlbO OS=Mycobacterium leprae (strain TN) OX=272631 GN=glbO PE=3 S
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   15.0   0.0   2.9e-05      0.69       1      62 [.       4      65 ..       4      99 .. 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 15.0 bits;  conditional E-value: 2.9e-05
+                  input  1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtgr 62
+                           s+++ +gg  + +a+ ++fya++  d  +  ++   d+    ++   fl    ggp +++ +
+  sp|Q9CC59|TRHBO_MYCLE  4 SFYDAIGGAETFKAIVSRFYAQVPEDEILRELYPADDLAGAEERLRMFLEQYWGGPRTYSSQ 65
+                           67899***************************************************998764 PP
+
+>> sp|Q9PPX6|PYRH_UREPA  Uridylate kinase OS=Ureaplasma parvum serovar 3 (strain ATCC 700970) OX=273119 GN=pyrH PE=1 SV=
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   12.4   0.0    0.0002       4.6      24      83 ..      17      80 ..       7     102 .. 0.74
+   2 ?   -0.8   0.1       2.3   5.4e+04      30      52 ..     125     147 ..     103     199 .. 0.62
+   3 ?   -2.2   0.0       6.4   1.5e+05      17      31 ..     175     189 ..     166     220 .. 0.64
+
+  Alignments for each domain:
+  == domain 1  score: 12.4 bits;  conditional E-value: 0.0002
+                 input 24 qadatvatffngidmpnqtnktaa..flcaalggpnawtgrnlkevhanmgv..snaqfttvig 83
+                          q d+++  f++  d+ +q +k +   ++   lgg n w g   ke+  +  +      ++t+i 
+  sp|Q9PPX6|PYRH_UREPA 17 QNDSSIIDFIKINDLAEQIEKISKkyIVSIVLGGGNIWRGSIAKELDMDRNLadNMGMMATIIN 80
+                          8899999*************987522456789************98764443003445666665 PP
+
+  == domain 2  score: -0.8 bits;  conditional E-value: 2.3
+                 input  30 atffngidmpnqtnktaaflcaa 52 
+                             f+ g  +p  t  ++a + aa
+  sp|Q9PPX6|PYRH_UREPA 125 MIFVAGTGFPYFTTDSCAAIRAA 147
+                           55666666665555444444333 PP
+
+  == domain 3  score: -2.2 bits;  conditional E-value: 6.4
+                 input  17 aqfyaniqadatvat 31 
+                           aqfy  i  + +++ 
+  sp|Q9PPX6|PYRH_UREPA 175 AQFYEHITFNMALTQ 189
+                           566666555444443 PP
+
+>> sp|P0A596|TRHBO_MYCBO  Group 2 truncated hemoglobin GlbO OS=Mycobacterium bovis (strain ATCC BAA-935 / AF2122/97) OX=
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   14.5   0.0   4.3e-05         1       1      61 [.       4      64 ..       4      99 .. 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 14.5 bits;  conditional E-value: 4.3e-05
+                  input  1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtg 61
+                           s+++ +gg  + +a+ ++fya++  d  +  ++   d+    ++   fl    ggp +++ 
+  sp|P0A596|TRHBO_MYCBO  4 SFYDAVGGAKTFDAIVSRFYAQVAEDEVLRRVYPEDDLAGAEERLRMFLEQYWGGPRTYSE 64
+                           67899***************************************************99875 PP
+
+>> sp|P9WN22|TRHBO_MYCTO  Group 2 truncated hemoglobin GlbO OS=Mycobacterium tuberculosis (strain CDC 1551 / Oshkosh) OX
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   14.5   0.0   4.3e-05         1       1      61 [.       4      64 ..       4      99 .. 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 14.5 bits;  conditional E-value: 4.3e-05
+                  input  1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtg 61
+                           s+++ +gg  + +a+ ++fya++  d  +  ++   d+    ++   fl    ggp +++ 
+  sp|P9WN22|TRHBO_MYCTO  4 SFYDAVGGAKTFDAIVSRFYAQVAEDEVLRRVYPEDDLAGAEERLRMFLEQYWGGPRTYSE 64
+                           67899***************************************************99875 PP
+
+>> sp|P9WN23|TRHBO_MYCTU  Group 2 truncated hemoglobin GlbO OS=Mycobacterium tuberculosis (strain ATCC 25618 / H37Rv) OX
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   14.5   0.0   4.3e-05         1       1      61 [.       4      64 ..       4      99 .. 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 14.5 bits;  conditional E-value: 4.3e-05
+                  input  1 slfeqlggqaavqavtaqfyaniqadatvatffngidmpnqtnktaaflcaalggpnawtg 61
+                           s+++ +gg  + +a+ ++fya++  d  +  ++   d+    ++   fl    ggp +++ 
+  sp|P9WN23|TRHBO_MYCTU  4 SFYDAVGGAKTFDAIVSRFYAQVAEDEVLRRVYPEDDLAGAEERLRMFLEQYWGGPRTYSE 64
+                           67899***************************************************99875 PP
+
+>> sp|Q4ZZF5|SYR_PSEU2  Arginine--tRNA ligase OS=Pseudomonas syringae pv. syringae (strain B728a) OX=205918 GN=argS PE=3
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   12.5   0.1   0.00018       4.1      40      98 ..      91     152 ..      64     167 .. 0.82
+
+  Alignments for each domain:
+  == domain 1  score: 12.5 bits;  conditional E-value: 0.00018
+                input  40 nqtnktaaflcaalggpnawtgrn...lkevhanmgvsnaqfttvighlrsaltgagvaaal 98 
+                          ++t   aa l aal  p+  + r+    + v  ++   n      +ghlrs++ g gva  l
+  sp|Q4ZZF5|SYR_PSEU2  91 QNTAALAARLDAALADPEKLSVRKagaAQRVVVDLSAPNLAKEMHVGHLRSTIIGDGVANVL 152
+                          56777889999*******999886222467888999999999999*************9876 PP
+
+>> sp|A8LXW8|RUVA_SALAI  Holliday junction ATP-dependent DNA helicase RuvA OS=Salinispora arenicola (strain CNS-205) OX=
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   -1.8   0.1         5   1.2e+05      92     112 ..      78     100 ..      70     109 .. 0.58
+   2 ?   12.9   0.5   0.00013         3      84     113 ..     152     182 ..     138     185 .. 0.86
+
+  Alignments for each domain:
+  == domain 1  score: -1.8 bits;  conditional E-value: 5
+                 input  92 agvaaalveqtvav..aetvrgd 112
+                           +gv   l +  +av   etvr  
+  sp|A8LXW8|RUVA_SALAI  78 SGVGPRLAQAVLAVhtPETVRAA 100
+                           45555555444444214677654 PP
+
+  == domain 2  score: 12.9 bits;  conditional E-value: 0.00013
+                 input  84 hlrsaltgagvaaalveqtv.avaetvrgdv 113
+                           ++r al g g +a   eq+v avaetv g+v
+  sp|A8LXW8|RUVA_SALAI 152 QVRQALVGLGWTAGQAEQAVaAVAETVDGEV 182
+                           689***************99459******98 PP
+
+>> sp|B5Y6V5|DNLJ_COPPD  DNA ligase OS=Coprothermobacter proteolyticus (strain ATCC 35245 / DSM 5265 / BT) OX=309798 GN=
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?    2.7   0.0      0.19   4.5e+03      49      69 ..     407     427 ..     395     463 .. 0.80
+   2 ?    7.1   0.0    0.0083   1.9e+02      13      87 ..     487     563 ..     480     568 .. 0.84
+
+  Alignments for each domain:
+  == domain 1  score: 2.7 bits;  conditional E-value: 0.19
+                 input  49 lcaalggpnawtgrnlkevha 69 
+                            c   ggp  w g  lk v  
+  sp|B5Y6V5|DNLJ_COPPD 407 TCPVCGGPTEWDGAYLKCVNI 427
+                           58899************9865 PP
+
+  == domain 2  score: 7.1 bits;  conditional E-value: 0.0083
+                 input  13 qavtaqfyaniqa..datvatffngidmpnqtnktaaflcaalggpnawtgrnlkevhanmgvsnaqfttvighlrs 87 
+                           q  ++++y niq   d     ++ g+ +p    kta +l+  +g  na     + e+ +  g+      t++  l+s
+  sp|B5Y6V5|DNLJ_COPPD 487 QRSATKLYENIQRskDRPFFRVLYGLGIPRVGLKTAQMLAEHFGSINALLNATMDELTSIEGIGTDTAETILKALQS 563
+                           55667899***9722555566689********************************999999988888888777766 PP
+
+>> sp|P08658|LIP_PSEFR  Triacylglycerol lipase OS=Pseudomonas fragi OX=296 GN=lips PE=1 SV=3
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   11.3   0.1   0.00041       9.6      50     105 ..      48     103 ..      24     110 .. 0.69
+   2 ?   -2.0   0.0       5.5   1.3e+05      54      54 ..     149     149 ..     126     174 .. 0.55
+
+  Alignments for each domain:
+  == domain 1  score: 11.3 bits;  conditional E-value: 0.00041
+                input  50 caalggpnawtgrnlkevhanmgvsnaqfttvighlrsaltgagvaaalveqtvav 105
+                           +a    +a   + lk++h       aq   +igh + alt   vaa   e   +v
+  sp|P08658|LIP_PSEFR  48 ISAANDNEARGDQLLKQIHNLRRQVGAQRVNLIGHSQGALTARYVAAIAPELIASV 103
+                          445555667777789****999999****************999998766554444 PP
+
+  == domain 2  score: -2.0 bits;  conditional E-value: 5.5
+                input  54 g 54 
+                          g
+  sp|P08658|LIP_PSEFR 149 G 149
+                          2 PP
+
+>> sp|O61463|RLA2_CRYST  60S acidic ribosomal protein P2 OS=Cryptochiton stelleri OX=6655 PE=3 SV=1
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   11.3   0.0   0.00043        10      45      87 ..       4      48 ..       1      79 [. 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 11.3 bits;  conditional E-value: 0.00043
+                 input 45 taaflcaalggpnawtgrnlkevhanmg..vsnaqfttvighlrs 87
+                           aa++ a+lgg +  +  +lk++   +g  v + q+t vi  l+ 
+  sp|O61463|RLA2_CRYST  4 VAAYMLATLGGNEKPSESDLKKILDSVGieVEKDQLTKVINELKG 48
+                          69*********************99888335789******99985 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                              1  (116 nodes)
+Target sequences:                       558681  (200603466 residues searched)
+Passed MSV filter:                     15218  (0.0272392); expected 11173.6 (0.02)
+Passed bias filter:                    10477  (0.0187531); expected 11173.6 (0.02)
+Passed Vit filter:                       610  (0.00109186); expected 558.7 (0.001)
+Passed Fwd filter:                        24  (4.29583e-05); expected 5.6 (1e-05)
+Initial search space (Z):             558681  [actual number of targets]
+Domain search space  (domZ):              24  [number of targets reported over threshold]
+# CPU time: 3.23u 0.23s 00:00:03.46 Elapsed: 00:00:01.56
+# Mc/sec: 14897.57
+//
+[ok]
