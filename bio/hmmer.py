@@ -5,12 +5,14 @@ Created on Tue Mar 19 20:05:43 2019
 @author: falcon1
 """
 import os
+from subprocess import run
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.Alphabet import IUPAC
 from Bio.SeqRecord import SeqRecord
 
-def getHomoProteinsByHMMER(seqdata, head='nohead'):
+# get a protein's homology proteins by HMMER
+def getHomoProteinsByHMMER(seqrecord):
     # HMMER command line
     hmmbuildCMD = r'hmmbuild input.hmm input.fasta' 
     hmmsearchCMD = r'hmmsearch input.hmm e:/uniprot_sprot.fasta > input.out'
@@ -18,15 +20,17 @@ def getHomoProteinsByHMMER(seqdata, head='nohead'):
         os.remove('input.hmm')
     if os.path.exists('input.fasta'):
         os.remove('input.fasta')
+    if os.path.exists('input.out'):
+        os.remove('input.out')
         
-    fpw = open('input.fasta','w')
-    seq = Seq(seqdata, IUPAC.ExtendedIUPACProtein)
-    records = SeqRecord(seq, id=head)
-    SeqIO.write(records, fpw, 'fasta')
+    fpw = open('input.fasta','w') 
+    SeqIO.write(seqrecord, fpw, 'fasta')
     fpw.close()
     
-    os.system(hmmbuildCMD)
-    os.system(hmmsearchCMD)
+    #os.system(hmmbuildCMD)
+    #os.system(hmmsearchCMD)
+    run(hmmbuildCMD, shell=True)
+    run(hmmsearchCMD, shell=True)
     
     homoProtein=[]
     fpr = open('input.out','r')
@@ -46,12 +50,14 @@ def getHomoProteinsByHMMER(seqdata, head='nohead'):
 
     return homoProtein
 
-
+# example of usage
 def main():
     seqdata ='SLFEQLGGQAAVQAVTAQFYANIQADATVATFFNGIDMPNQTNKTAAFLCAALGGPNAWTGRNLKEVHAN\
 MGVSNAQFTTVIGHLRSALTGAGVAAALVEQTVAVAETVRGDVVTV'
     head = 'd1d1wa'
-    homoProtein = getHomoProteinsByHMMER(seqdata,head)
+    seq = Seq(seqdata, IUPAC.ExtendedIUPACProtein)
+    seqrecord = SeqRecord(seq, id=head)
+    homoProtein = getHomoProteinsByHMMER(seqrecord)
     print(homoProtein)
     
 if __name__ == '__main__':
