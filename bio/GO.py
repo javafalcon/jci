@@ -23,14 +23,27 @@ SELECT_TERM_ACC = "SELECT  distinct term.acc  \
                           INNER JOIN evidence ON (association.id=evidence.association_id) \
                           INNER JOIN term ON (association.term_id=term.id) \
                    WHERE  term.is_obsolete=0  and   dbxref.xref_key =%s  ORDER BY term.acc;"
-                   
+
+def getConnection(host,user,passwd,db):
+    """
+    连接数据库
+    
+    Parameters
+    ----------
+    host: string
+          主机名称
+    user: string
+          数据库用户名称
+    passwd:
+          熟即可用户密码
+    db：
+          数据库名称
+    """
+    connection = pymysql.connect(host, user, passwd, db)  
+    return connection
+                 
 def queryTerms(sql, args=None):
-    connection = pymysql.connect(
-            host = 'localhost',
-            user = 'root',
-            passwd = 'jciicpr',
-            db = 'go20160604'
-    ) #连接数据库
+    connection = getConnection('localhost','root','jciicpr','go')
     try:
         with connection.cursor() as cursor:
             cursor.execute(sql, args)
@@ -57,10 +70,34 @@ def getGOSet(seqdata):
     
     return goset
 
+def goTermsDist(term1,term2):
+    dist = 0
+    sql = "SELECT distance \
+           FROM graph_path, term as t1, term as t2 \
+           WHERE graph_path.term1_id = t1.id \
+           and graph_path.term2_id=t2.id \
+           and ((t1.acc='%s' and t2.acc ='%s') \
+           or (t1.acc='%s' and t2.acc='%s'))" % (term1,term2,term2,term1);
+        
+    connection = getConnection('localhost','root','jciicpr','go')
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            if result != None:
+                dist = result[0]
+    except:
+        print("Error: database query error")
+    finally:
+        connection.close()
+        
+    return dist
+ 
+
 def main():
     i = 1
     prot_go_set_dict = {}
-    for seq_record in SeqIO.parse('e:\\Repoes\\SubLoc.fasta', 'fasta'):
+    for seq_record in SeqIO.parse('e:\\Repoes\\BioProjects\\SubcellLoc\\SubLoc.fasta', 'fasta'):
         goes = getGOSet(str(seq_record.seq))
         prot_go_set_dict[seq_record.id] = goes
         print(i)
@@ -68,8 +105,8 @@ def main():
     
     with open('e:\\Repoes\\SubLocGOExp.json','a') as fw:
        json.dump(prot_go_set_dict, fw,ensure_ascii=False)
-       fw.write('\n')
+       fw.write('\n')           
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+#    main()
     
