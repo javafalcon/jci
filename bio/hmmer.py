@@ -6,6 +6,7 @@ Created on Tue Mar 19 20:05:43 2019
 """
 import os
 from subprocess import run
+import scipy.io as sio
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.Alphabet import IUPAC
@@ -50,16 +51,69 @@ def getHomoProteinsByHMMER(seqrecord):
 
     return homoProtein
 
+def buildFunctionDomainSet(dataFile):
+    uniprot_seqs_dict = {}
+    for uniprot_seq_record in SeqIO.parse('uniprot_sprot.fasta', 'fasta'):
+        uniprot_seqs_dict[uniprot_seq_record.id] = str(uniprot_seq_record.seq)
+    
+    pfams = {}
+    hmmscanCMD = 'hmmscan -o out.txt --tblout fmout.tbl --acc --noali Pfam-A.hmm input.fasta'
+    for seq_record in SeqIO.parse(dataFile, 'fasta'):
+        pfam = []
+        h = getHomoProteinsByHMMER(seq_record)
+        if h:
+            for j in range(len(h)):
+                pid = h[j]
+                pseq = Seq(uniprot_seqs_dict[pid],IUPAC.ExtendedIUPACProtein)
+                if os.path.exists('out.txt'):
+                    os.remove('out.txt') 
+                if os.path.exists('fmout.tbl'):
+                    os.remove('fmout.tbl')
+                if os.path.exists('input.fasta'):
+                    os.remove('input.fasta')
+                    
+                fpw = open('input.fasta','w') 
+                seqrecord = SeqRecord(pseq, id=pid)
+                SeqIO.write(seqrecord, fpw, 'fasta')
+                fpw.close()
+                
+                run(hmmscanCMD, shell=True)
+                
+                with open('fmout.tbl','r') as fm:
+                    flag = 1
+                    lines = fm.readlines()
+                    for tline in lines:
+                        if '[ok]' in tline:
+                            break
+                        elif tline.startswith('#'):
+                            if flag == 1:
+                                continue
+                            else:
+                                break
+                        else:
+                            flag = 0
+                            s = tline.split()
+                            pf = s[1][:7]
+                            pfam.append(pf)
+                    # end with
+               # end for j in range(len(h))
+        else:
+            print("{} has not homology proteins".format(seq_record.id))
+            pfams[seq_record.id] = pfam 
+    # end for seq_record 
+    return pfams
+
 # example of usage
 def main():
-    seqdata ='SLFEQLGGQAAVQAVTAQFYANIQADATVATFFNGIDMPNQTNKTAAFLCAALGGPNAWTGRNLKEVHAN\
+    '''seqdata ='SLFEQLGGQAAVQAVTAQFYANIQADATVATFFNGIDMPNQTNKTAAFLCAALGGPNAWTGRNLKEVHAN\
 MGVSNAQFTTVIGHLRSALTGAGVAAALVEQTVAVAETVRGDVVTV'
     head = 'd1d1wa'
     seq = Seq(seqdata, IUPAC.ExtendedIUPACProtein)
     seqrecord = SeqRecord(seq, id=head)
     homoProtein = getHomoProteinsByHMMER(seqrecord)
-    print(homoProtein)
+    print(homoProtein)'''
     
-if __name__ == '__main__':
-    main()
+    
+pfams = buildFunctionDomainSet(r'E:\Repoes\jcilwz\RemoteHomology\program\SCOP167-superfamily\pos-train.g.3.6.2.fasta')
+print(pfams)
     
