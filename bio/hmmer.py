@@ -61,7 +61,9 @@ def buildFunctionDomainSet(dataFile):
     for seq_record in SeqIO.parse(dataFile, 'fasta'):
         pfam = []
         h = getHomoProteinsByHMMER(seq_record)
-        if h:
+        if len(h) == 0:
+            print("{} has not homology proteins".format(seq_record.id))
+        else:
             for j in range(len(h)):
                 pid = h[j]
                 pseq = Seq(uniprot_seqs_dict[pid],IUPAC.ExtendedIUPACProtein)
@@ -97,9 +99,7 @@ def buildFunctionDomainSet(dataFile):
                             pfam.append(pf)
                     # end with
                # end for j in range(len(h))
-        else:
-            print("{} has not homology proteins".format(seq_record.id))
-            pfams[seq_record.id] = pfam 
+        pfams[seq_record.id] = pfam 
     # end for seq_record 
     return pfams
 
