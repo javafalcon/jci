@@ -13,6 +13,9 @@ import re
 # 对矩阵进行归一化
 # 每行是一个样本，每列是一个特征
 # 对每一列特征进行归一化： (f-min)/(max-min)
+
+amino_acid = 'PQRYWTMNVELHSFCIKADG'
+
 def maxminnorm(array):
     maxcols=array.max(axis=0)
     mincols=array.min(axis=0)
@@ -59,6 +62,69 @@ def load_hmm_prof( hmm_profil_json, num_aas):
         
     return X
 
+def seqAAOneHot(seq, start=0, length=0):
+    """
+    表达序列的AA One-Hot 矩阵表示
+    
+    Parameters:
+    ___________
+    seq: string
+         sequence of amino acid
+    start,length: int
+         if start > 0, length也需大于0，取序列切片seq[start:start+length]
+         if start < 0, length也需小于0，取序列切片seq[start+length+1:start+1]
+         if start取默认值0，length>0,取序列切片seq[:,length]
+         if start取默认值0，length<0,取序列切片seq[length:]
+    Returns:
+    __________
+    numpy.ndarry
+    """
+    seq = re.sub('[XZUB]',"",seq)
+    seq = seq.strip()
+    if length == 0:
+        length = len(seq) - start
+        
+    X = np.zeros((abs(length), 20))
+    
+    if start > 0 and length > 0:
+        s = seq[start: start+length]
+        for i in range(len(s)):
+            j = amino_acid.index(s[i])
+            X[i][j] = 1
+    elif start < 0 and length < 0:
+        s = seq[start+length+1:start+1]
+        for i in range(-len(s), 0):
+            j = amino_acid.index(s[i])
+            X[i][j] = 1
+    elif start == 0 and length > 0:
+        s = seq[:length]
+        for i in range(len(s)):
+            j = amino_acid.index(s[i])
+            X[i][j] = 1
+    elif start == 0 and length < 0:
+        s = seq[length:]
+        for i in range(-len(s),0):
+            j = amino_acid.index(s[i])
+            X[i][j] = 1
+            
+    return X
+
+def seqDAA(seq, start=0, end=0):
+    seq = re.sub('[XZUB]',"",seq)
+    seq = seq.strip()
+    if end == 0:
+        s = seq[start:]
+    else:
+        s = seq[start:end]
+    
+    X = np.zeros((20,20))
+    for i in range(20):
+        for j in range(20):
+            X[i][j] = s.count("".join([amino_acid[i], amino_acid[j]]))
+    
+    return X/np.sum(X)
+                
+    
 def AAOneHot(fastafile, num_aas):
     #files=[r'E:\Repoes\AMPnet\data\benchmark\AMPs_50.fasta',r'E:\Repoes\AMPnet\data\benchmark\notAMPs_50.fasta']
     text='PQRYWTMNVELHSFCIKADG'
@@ -73,6 +139,7 @@ def AAOneHot(fastafile, num_aas):
     for seq_record in seq_records:
         seq = str(seq_record.seq)
         seq = re.sub('[XZUB]',"",seq)
+        seq = seq.strip()
         
         c = len(seq)
         m = np.zeros((len(seq),20))
@@ -148,3 +215,43 @@ def AAPhyChemOneHot(fastafile, num_aas):
             X[k] = m[0][:N] 
         k += 1
     return X
+
+def DAA(fastafile):
+    """
+    蛋白质序列两连体表示矩阵
+    
+    Parameters
+    __________
+    fastafile: string
+               the fasta file's name of sequences
+    
+    Returns
+    _________
+    numpy.ndarray
+          the douple amino acid composition features of sequences
+    """
+    amino_acids = 'PQRYWTMNVELHSFCIKADG'
+    
+    seq_records = list(SeqIO.parse(fastafile, 'fasta'))
+    num_seqs = len(seq_records)
+    
+    X = np.ndarray([num_seqs,400])
+    k = 0
+    
+    for seq_record in SeqIO.parse(fastafile,'fasta'):
+        x = np.ndarray([20,20])
+        seq = str(seq_record.seq)
+        seq = re.sub('[XZUB]',"",seq)
+        
+        for i in range(20):
+            for j in range(20):
+                x[i][j] = seq.count("".join([amino_acids[i], amino_acids[j]]))
+        
+        x = x.reshape([1,400])
+        x = x/np.sum(x)
+        
+        X[k] = x
+        k = k + 1
+        
+    return X
+                

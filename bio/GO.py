@@ -35,7 +35,7 @@ def getConnection(host,user,passwd,db):
     user: string
           数据库用户名称
     passwd:
-          熟即可用户密码
+          数据库用户密码
     db：
           数据库名称
     """
