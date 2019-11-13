@@ -16,7 +16,7 @@ from Bio.SeqRecord import SeqRecord
 def getHomoProteinsByHMMER(seqrecord):
     # HMMER command line
     hmmbuildCMD = r'hmmbuild input.hmm input.fasta' 
-    hmmsearchCMD = r'hmmsearch input.hmm e:/uniprot_sprot.fasta > input.out'
+    hmmsearchCMD = r'hmmsearch input.hmm uniprot_sprot.fasta > input.out'
     if os.path.exists('input.hmm'):
         os.remove('input.hmm')
     if os.path.exists('input.fasta'):
@@ -38,6 +38,9 @@ def getHomoProteinsByHMMER(seqrecord):
     lines = fpr.readlines()
     fpr.close()
     
+    if not lines:
+        return []
+    
     i = 14
     while i <= 24:
         line = lines[i]
@@ -56,13 +59,20 @@ def buildFunctionDomainSet(dataFile):
     for uniprot_seq_record in SeqIO.parse('uniprot_sprot.fasta', 'fasta'):
         uniprot_seqs_dict[uniprot_seq_record.id] = str(uniprot_seq_record.seq)
     
+    #uniprot_seqs_dict = sio.loadmat('uniprot_seqs_dict.mat')
     pfams = {}
     hmmscanCMD = 'hmmscan -o out.txt --tblout fmout.tbl --acc --noali Pfam-A.hmm input.fasta'
+    num_total = 1
+    num_nohom = 0
     for seq_record in SeqIO.parse(dataFile, 'fasta'):
+        print("{}: {}".format(num_total,seq_record.id))
+        num_total += 1
+        
         pfam = []
         h = getHomoProteinsByHMMER(seq_record)
         if len(h) == 0:
-            print("{} has not homology proteins".format(seq_record.id))
+            num_nohom += 1
+            print("{}/{} has not homology proteins".format(seq_record.id, num_nohom))
         else:
             for j in range(len(h)):
                 pid = h[j]
@@ -81,7 +91,7 @@ def buildFunctionDomainSet(dataFile):
                 
                 run(hmmscanCMD, shell=True)
                 
-                with open('fmout.tbl','r') as fm:
+                with open('fmout.tbl','r',encoding='UTF-8') as fm:
                     flag = 1
                     lines = fm.readlines()
                     for tline in lines:
@@ -114,6 +124,6 @@ MGVSNAQFTTVIGHLRSALTGAGVAAALVEQTVAVAETVRGDVVTV'
     print(homoProtein)'''
     
     
-pfams = buildFunctionDomainSet(r'E:\Repoes\jcilwz\RemoteHomology\program\SCOP167-superfamily\pos-train.g.3.6.2.fasta')
-print(pfams)
+pfams = buildFunctionDomainSet(r'E:\Repoes\jcilwz\RemoteHomology\program\scope_independent.fa')
+sio.savemat('independent_pfams.mat',pfams)
     

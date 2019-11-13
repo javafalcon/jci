@@ -116,3 +116,6 @@ def getPSSMMatFileFromFastafile( dirname, fastafile, matfilename, dbName='swissp
                                
     # save to mat file
     sio.savemat(matfilename, pssm)
+
+getPSSMFiles(r"E:\Repoes\jcilwz\RemoteHomology\program\SCOP167_pos_train_1-2.fa",
+             "SCOP167_PSSM_1/")
