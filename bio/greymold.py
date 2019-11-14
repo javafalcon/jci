@@ -82,17 +82,24 @@ n=1，使用GM(1,1)模型产生伪成分
 n=2，使用GM(2,1)模型产生伪成分
 首先对pssm矩阵以函数1/(1+exp(-x))变换，使得矩阵每个元素都是（0，1）之间的正数
 """
-def greyPsePSSM(pssm, n=1):
+def greyPsePSSM(pssm, model=1):
     sp = pssm.shape
     # 以1/(1+exp(-x))变换pssm矩阵
     for i in range(sp[0]):
         for j in range(sp[1]):
             pssm[i,j] = 1 / (1 + math.exp(-pssm[i,j]))
-            
-    if n == 1: # generate pseudo composition by GM(1,1)
+    
+    a = GMParam(pssm[:,j], model)    
+    if model == 1: # generate pseudo composition by GM(1,1)
         psem = np.ndarray((60,))
         psem[:20] = np.mean(pssm,axis=0)
-        
+        for j in range(20):
+            psem[20+2*j],psem[20+2*j+1] = a
+    elif model == 2:
+        psem = np.ndarray((80,))
+        psem[:20] = np.mean(pssm,axis=0)
+        for j in range(20):
+            psem[20+3*j],psem[20+3*j+1],psem[20+3*j+2]=a
         
 def main():
     # 灰色关联度
@@ -116,8 +123,11 @@ def main():
     """
     
     # 灰色模型
+    '''
     x = [2.874,3.278,3.337,3.390,3.679]
     a = GMParam(x,2)
     print(a)
+    '''
+    
 if __name__ == "__main__":
     main()

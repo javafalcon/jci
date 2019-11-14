@@ -39,7 +39,16 @@ def pfamcmp(pf1,pf2,clanDict):
         s = len(intset)/len(uniset)
     return s
 
-#import scipy.io as sio
-#data=sio.loadmat(r'E:\Repoes\jcilwz\RemoteHomology\program\independent_pfams.mat')
-#clanDict=sio.loadmat(r'E:\Repoes\jcilwz\RemoteHomology\program\pfamClan.mat')
-#s=pfamcmp(list(pf1),list(pf2),clanDict)
+"""
+从psi-blast运行得到的PSSM文件中读入PSSM矩阵
+"""
+def readPSSMFromFile(filename):
+    alph = 'ARNDCQEGHILKMFPSTWYVBZX*'
+    with open(filename, 'r') as fo:
+        lines = fo.readlines()
+        i = 3
+        line = lines[i]
+        while len(line) > 0 and i < len(lines):
+            s = line.split(" ")
+        
+
