@@ -11,22 +11,26 @@ class PfamClan(object):
         self.abb = abb
         self.annot = annot
 
+"""
+compulate distance between pfam domain pf1 and pf2
+"""
 def pfamcmp(pf1,pf2,clanDict):
     s = 0
-    if not pf1 or not pf2:
-        return s
     pfset1 = set(pf1)
     pfset2 = set(pf2)
+    if not pfset1 or not pfset2:
+        return s
+    
     
     intset = pfset1.intersection(pfset2)
     uniset = pfset1.union(pfset2)
     
     if not intset:
-        for p1 in pf1:
-            clan1=clanDict[p1].cid
-            for p2 in pf2:
-                clan2 = clanDict[p2].cid
-                if not clan1 or not clan2:
+        for p1 in pfset1:
+            clan1=clanDict[p1]
+            for p2 in pfset2:
+                clan2 = clanDict[p2]
+                if not clan1.cid or not clan2.cid:
                     s = 0
                 else:
                     if clan1==clan2:
@@ -38,4 +42,4 @@ def pfamcmp(pf1,pf2,clanDict):
 #import scipy.io as sio
 #data=sio.loadmat(r'E:\Repoes\jcilwz\RemoteHomology\program\independent_pfams.mat')
 #clanDict=sio.loadmat(r'E:\Repoes\jcilwz\RemoteHomology\program\pfamClan.mat')
-s=pfamcmp(list(pf1),list(pf2),clanDict)
+#s=pfamcmp(list(pf1),list(pf2),clanDict)
