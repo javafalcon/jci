@@ -41,14 +41,36 @@ def pfamcmp(pf1,pf2,clanDict):
 
 """
 从psi-blast运行得到的PSSM文件中读入PSSM矩阵
+返回一个二维的列表
 """
 def readPSSMFromFile(filename):
-    alph = 'ARNDCQEGHILKMFPSTWYVBZX*'
+    pssm = []
     with open(filename, 'r') as fo:
         lines = fo.readlines()
-        i = 3
-        line = lines[i]
-        while len(line) > 0 and i < len(lines):
-            s = line.split(" ")
+        lines = lines[3:]
+        for line in lines:
+            if len(line) < 2:
+                break
+            else:
+                s = line.split(" ")
+                k = 0
+                m = []
+                for e in s:
+                    if len(e) > 0:
+                        k += 1
+                        if 2<k<23:
+                            m.append(eval(e))
+                pssm.append(m)
+            
+    return pssm
+
+def main():
+    filename=r'E:\Repoes\jcilwz\RemoteHomology\program\scope_independent_PSSM\d1a7sa_.txt';
+    pssm = readPSSMFromFile(filename)
+    print(pssm)
+
+if __name__ == "__main__":
+    main()
+                    
         
 

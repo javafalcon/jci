@@ -95,11 +95,14 @@ def greyPsePSSM(pssm, model=1):
         psem[:20] = np.mean(pssm,axis=0)
         for j in range(20):
             psem[20+2*j],psem[20+2*j+1] = a
+        return psem
     elif model == 2:
         psem = np.ndarray((80,))
         psem[:20] = np.mean(pssm,axis=0)
         for j in range(20):
             psem[20+3*j],psem[20+3*j+1],psem[20+3*j+2]=a
+        return psem
+			
         
 def main():
     # 灰色关联度
