@@ -308,9 +308,10 @@ If model=1,by GM(1,1); else model=2, by GM(2,1)
 from greymodel import GMParam
 import math
 def greyPseAAC(seq, codeTypes, model=1):
+    seq = seq.upper()
     seq = re.sub('[XZUB]',"",seq)
     seq = seq.strip()
-    seq = seq.upper()
+    
     n = len(seq)
     pseaac = []
     #The first 20 elements in x are the 20 amino acids' frequence
@@ -328,12 +329,41 @@ def greyPseAAC(seq, codeTypes, model=1):
         pseaac.append(abs(b))
     
     return pseaac
-                       
+
+def chaosGraph(seq, width=30, hight=30):
+    # 非极性且疏水，极性且中性；酸性，碱性
+    aa = [['A','V','L','I','P','G','W','F','M'],['Q','S','T','C','N','Y'],['D','E'],['K','R','H']]  
+    seq = seq.upper()
+    seq = re.sub('[XZUB]','',seq)
+    seq = seq.strip() 
+    g = np.zeros(shape=(width, hight))
+    i,j = width//2,hight//2
+    for c in seq:
+        if c in aa[0]:
+            x,y = 0,0
+        elif c in aa[1]:
+            x,y = width,0
+        elif c in aa[2]:
+            x,y = width, hight
+        elif c in aa[3]:
+            x,y = 0,hight
+            
+        tx, ty = (i + x)//2, (j + y)//2
+        g[tx,ty] = g[tx,ty] + 1
+        i,j = tx,ty
+    return g
+            
+        
 def main():
-    codeTypes = ['MolecularWeight','Hydrophobicity','PK1','PK2','PI']
+    #codeTypes = ['MolecularWeight','Hydrophobicity','PK1','PK2','PI']
     seq = 'SLFEQLGGQAAVQAVTAQFYANIQADATVATFFNGIDMPNQTNKTAAFLCAALGGPNAWTGRNLKEVHAN\
 MGVSNAQFTTVIGHLRSALTGAGVAAALVEQTVAVAETVRGDVVTV'
-    v = greyPseAAC(seq,codeTypes)
+    seq = 'MDLLAELQWRGLVNQTTDEDGLRKLLNEERVTLYCGFDPTADSLHIGHLATILTMRRFQQAGHRPIALVGGATGLI\
+    GDPSGKKSERTLNAKETVEAWSARIKEQLGRFLDFEADGNPAKIKNNYDWIGPLDVITFLRDVGKHFSVNYMMAKESVQSRI\
+    ETGISFTEFSYMMLQAYDFLRLYETEGCRLQIGGSDQWGNITAGLELIRKTKGEARAFGLTIPLVTKADGTKFGKTESGTIWL\
+    DKEKTSPYEFYQFWINTDDRDVIRYLKYFTFLSKEEIEALEQELREAPEKRAAQKTLAEEVTKLVHGEEALRQAIRIS'
+    #v = greyPseAAC(seq,codeTypes)
+    v = chaosGraph(seq)
     print(v)
     
 if __name__ == "__main__":
