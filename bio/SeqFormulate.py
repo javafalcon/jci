@@ -330,7 +330,7 @@ def greyPseAAC(seq, codeTypes, model=1):
     
     return pseaac
 
-def chaosGraph(seq, width=30, hight=30, norm=False):
+def chaosGraph_aminoacids(seq, width=30, hight=30, norm=False):
     # 非极性且疏水，极性且中性；酸性，碱性
     aa = [['A','V','L','I','P','G','W','F','M'],['Q','S','T','C','N','Y'],['D','E'],['K','R','H']]  
     seq = seq.upper()
@@ -356,7 +356,6 @@ def chaosGraph(seq, width=30, hight=30, norm=False):
     else:
         return g
             
-        
 def main():
     #codeTypes = ['MolecularWeight','Hydrophobicity','PK1','PK2','PI']
     seq = 'SLFEQLGGQAAVQAVTAQFYANIQADATVATFFNGIDMPNQTNKTAAFLCAALGGPNAWTGRNLKEVHAN\
