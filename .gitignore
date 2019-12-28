@@ -1,0 +1,17 @@
+#PyCharm files
+__pycache__/
+.idea/
+
+#jupyter notebook files
+.ipynb_checkpoints/
+bio/*.mat
+bio/*.fasta
+bio/*.out
+bio/*.txt
+bio/Pfam-A.hmm
+bio/Pfam-A.hmm.*
+bio/input.*
+bio/*.tbl
+bio/*.txt
+bio/SCOP167_PSSM_1
+
