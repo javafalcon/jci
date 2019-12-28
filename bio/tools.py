@@ -37,5 +37,6 @@ def aa2code(aa:str):
     code['W'] = ['UGG']
     code['Y'] = ['UAU','UAC']
     code['#'] = ['XXX']
+
     c = code[aa]
     return random.choice(c)
