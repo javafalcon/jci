@@ -117,4 +117,6 @@ def getPSSMMatFileFromFastafile( dirname, fastafile, matfilename, dbName='swissp
     # save to mat file
     sio.savemat(matfilename, pssm)
 
-getPSSMFiles("PDNA-543_sequence.fasta", "PDNA543_PSSM/")
+fastafile = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/TargetDNA/PDNA-543_sequence.fasta'
+outdir = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA543_PSSM/'
+getPSSMFiles(fastafile, outdir)
