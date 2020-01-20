@@ -64,6 +64,13 @@ def read_hhm(hhm_file):
     return (seq, np.concatenate((prob, extras), axis=1))
 if __name__ == "__main__":
     fastafile = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/TargetDNA/PDNA-TEST_sequence.fasta'
-    outdir = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA543TEST_hhm'
-    getHHSuiteFiles(fastafile,outdir)
+    outdir = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA543_hhm'
+    #getHHSuiteFiles(fastafile,outdir)
     #a = readHhsuiteProfile(os.path.join(outdir,'1A0A_A'))
+    files = os.listdir(outdir)
+    lshhm = []
+    for f in files:
+        hhm_file = os.path.join(outdir, f)
+        lshhm.append(read_hhm(hhm_file))
+    np.save('/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA543_hhm.npy', lshhm)
+        
