@@ -22,7 +22,7 @@ def getPSSMFiles(fastafile,outfileprefix='',dbName='swissprot'):
     inputfile = 'input.fasta'
     
     for seq_record in SeqIO.parse(fastafile, 'fasta'):
-        print('{} is calculating pssm'.format(seq_record.id))
+        print('\r{} '.format(seq_record.id),end="")
         # psi-blast input file
         if os.path.exists(inputfile):
             os.remove( inputfile)
@@ -40,7 +40,7 @@ def getPSSMFiles(fastafile,outfileprefix='',dbName='swissprot'):
         
         # If seq_record does not have pssm, generating it by blosum62 Matrix
         if not os.path.exists(pssmfile):
-            print('{} does not have pssm'. format(seq_record.id))
+            print('\r{} does not have pssm'. format(seq_record.id))
             with open(pssmfile,'w') as pw:
                 pw.writelines("  \n")
                 pw.writelines("last position-specific scoring matrix computed, weighted \n")
@@ -117,4 +117,6 @@ def getPSSMMatFileFromFastafile( dirname, fastafile, matfilename, dbName='swissp
     # save to mat file
     sio.savemat(matfilename, pssm)
 
-#getPSSMFiles(r"E:\Repoes\jcilwz\RemoteHomology\program\SCOP167_pos_train_1-2.fa", "SCOP167_PSSM_1/")
+fastafile = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/TargetDNA/PDNA-543_sequence.fasta'
+outdir = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA543_PSSM/'
+getPSSMFiles(fastafile, outdir)
