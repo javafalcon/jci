@@ -37,21 +37,21 @@ def aaindex1Values():
     return np.array(AAValues)      
 
 def aaindex1PCAValues():
-    with open('E:\\Repoes\\jci\\bio\\Amino_Acids_PCAVal_dict.txt','r') as fr:
+    with open('E:\\Repoes\\jci\\bio\\Amino_Acids_PCAVal15_dict.txt','r') as fr:
         aadic = eval(fr.read())
     return aadic
         
 if __name__ == '__main__':
-    aavals = aaindex1Values()
+    aavals = aaindex1Values().T
     
     scaler = StandardScaler()
     aa_scal = scaler.fit_transform(aavals)
-    pca = PCA(n_components=20)
-    aa_pca = pca.fit_transform(aa_scal.T)
+    pca = PCA(n_components=15)
+    aa_pca = pca.fit_transform(aa_scal)
     aaval_dic = {}
     for i in range(20):
         aaval_dic[AminoAcids[i]] = list(aa_pca[i])
-    with open('Amino_Acids_PCAVal_dict.txt','w') as fw:
+    with open('Amino_Acids_PCAVal15_dict.txt','w') as fw:
         fw.write(str(aaval_dic))
     
         
