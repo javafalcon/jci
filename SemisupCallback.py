@@ -5,11 +5,11 @@ Created on Sun Jul 28 13:30:05 2019
 @author: falcon1
 """
 from SemisupController import SemisupController
-import keras
-from keras import backend as K
+from tensorflow.keras import callbacks
+from tensorflow.keras import backend as K
 import matplotlib.pyplot as plt
 __metaclass__ = type
-class SemisupCallback(keras.callbacks.Callback):
+class SemisupCallback(callbacks.Callback):
     def __init__(self, weight,rampup_length, rampdown_length, epochs, learning_rate_max, 
                  scaled_unsup_weight_max, gammer, beita):
         self.weight = weight

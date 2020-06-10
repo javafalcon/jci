@@ -6,13 +6,13 @@ Created on Thu Jul 11 08:49:08 2019
 """
 
 import numpy as np
-import keras
-from keras import backend as K
 import tensorflow as tf
-from keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras import optimizers, losses, callbacks
+from tensorflow.keras import backend as K
+
 from sklearn.metrics import accuracy_score,f1_score,roc_auc_score,recall_score,precision_score,confusion_matrix,matthews_corrcoef 
 from SemisupCallback import SemisupCallback
-from keras import optimizers
+
 
 ## Define loss functions
 def sup_loss(y_true, y_pred):  
@@ -21,7 +21,7 @@ def sup_loss(y_true, y_pred):
 
 def semisup_loss(o1, o2):
     def los(y_true, y_pred):
-        return keras.losses.mean_squared_error(o1, o2)
+        return losses.mean_squared_error(o1, o2)
     return los
 
 ## print and save metrics of model
@@ -31,9 +31,8 @@ def semisup_loss(o1, o2):
 ##    noteinfo: the note messages what are wrote into file
 ##    metricsFile: a string of the file name to saving predicting metrics
 def displayMetrics(y_true, predicted_Probability, noteinfo, metricsFile):
-        prediction = np.array(predicted_Probability> 0.5).astype(int)
-        prediction = prediction[:,0]
-        labels = y_true[:,0]
+        prediction = np.argmax(predicted_Probability, 1)
+        labels = np.argmax((y_true, 1))
         print('Showing the confusion matrix')
         cm=confusion_matrix(labels,prediction)
         print(cm)
@@ -53,8 +52,7 @@ def displayMetrics(y_true, predicted_Probability, noteinfo, metricsFile):
             fw.write("\nPre: %f "%precision_score(labels,prediction))
             fw.write("\nMCC: %f "%matthews_corrcoef(labels,prediction))
             fw.write("\nAUC: %f\n "%roc_auc_score(labels,predicted_Probability[:,0]))
-        #print('Plotting the ROC curve...')
-        #plotROC(labels,predicted_Probability[:,0])
+        
         
 class SemisupLearner:
     def __init__(self, modelFile, model, **ssparam):
@@ -64,10 +62,12 @@ class SemisupLearner:
         layer = model.get_layer('unsupLayer')
         loss2 = semisup_loss(layer.get_output_at(0), layer.get_output_at(1))
         model.compile(loss=[sup_loss, loss2], loss_weights=[1, self.weight],
-                     optimizer=optimizers.Adam(lr=ssparam['learning_rate']),  metrics=['accuracy']) 
+                     optimizer=optimizers.Adam(learning_rate=ssparam['learning_rate']), 
+                     #experimental_run_tf_function = False,
+                     metrics=['accuracy']) 
         self.model = model
     def train(self):
-        print('Training...')
+        print('Use jci/semisupLearning_kears.py Training...')
         ssCallback = SemisupCallback(self.weight,self.ssparam['rampup_length'], self.ssparam['rampdown_length'], 
                                      self.ssparam['epochs'], self.ssparam['learning_rate_max'], 
                                      self.ssparam['scaled_unsup_weight_max'], self.ssparam['gammer'], 
@@ -78,10 +78,10 @@ class SemisupLearner:
                               epochs=self.ssparam['epochs'],
                               validation_data=[self.ssparam['x_vldt'], self.ssparam['y_vldt']],
                               callbacks=[ssCallback,
-                                         EarlyStopping(patience=self.ssparam['patience']),
-                                         ModelCheckpoint(filepath=self.modelFile,
+                                         callbacks.EarlyStopping(patience=self.ssparam['patience']),
+                                         callbacks.ModelCheckpoint(filepath=self.modelFile,
                                                          save_weights_only=True,
-                                                         save_best_only=False)]
+                                                         save_best_only=True)]
             )
         else:
             self.model.fit(self.ssparam['x_train'], self.ssparam['y_train'],
@@ -89,19 +89,15 @@ class SemisupLearner:
                               epochs=self.ssparam['epochs'],
                               validation_split=0.1,
                               callbacks=[ssCallback,
-                                         EarlyStopping(patience=self.ssparam['patience']),
-                                         ModelCheckpoint(filepath=self.modelFile,
+                                         callbacks.EarlyStopping(patience=self.ssparam['patience']),
+                                         callbacks.ModelCheckpoint(filepath=self.modelFile,
                                                          save_weights_only=True,
-                                                         save_best_only=False)]
+                                                         save_best_only=True)]
             )
                          
     def predict(self, x_test):
         print('Evaluating the model')
         predictedList = self.model.predict(x_test)
-        
-        K.clear_session()
-        tf.reset_default_graph()
-
         return predictedList[0]   
     
     # predict sample's label probability by loading pretraining model
