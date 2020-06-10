@@ -7,6 +7,7 @@ Created on Thu Jul 11 08:49:08 2019
 
 import numpy as np
 import keras
+import tensorflow as tf
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras import backend as K
 from sklearn.metrics import accuracy_score,f1_score,roc_auc_score,recall_score,precision_score,confusion_matrix,matthews_corrcoef 
@@ -16,7 +17,7 @@ from keras import optimizers
 ## Define loss functions
 def sup_loss(y_true, y_pred):  
     m = K.sum(y_true, axis=-1)
-    return  K.switch(K.equal(K.sum(y_true), 0), 0., K.sum(K.categorical_crossentropy(K.tf.boolean_mask(y_true,m), K.tf.boolean_mask(y_pred,m), from_logits=True)) / K.sum(y_true))
+    return  K.switch(K.equal(K.sum(y_true), 0), 0., K.sum(K.categorical_crossentropy(tf.boolean_mask(y_true,m), tf.boolean_mask(y_pred,m), from_logits=True)) / K.sum(y_true))
 
 def semisup_loss(o1, o2):
     def los(y_true, y_pred):
