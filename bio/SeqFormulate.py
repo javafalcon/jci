@@ -9,7 +9,7 @@ import numpy as np
 from Bio import SeqIO
 import json
 import re
-
+import math
 # 对矩阵进行归一化
 # 每行是一个样本，每列是一个特征
 # 对每一列特征进行归一化： (f-min)/(max-min)
@@ -357,18 +357,45 @@ def chaosGraph_aminoacids(seq, width=30, hight=30, norm=False):
         return g/len(seq)
     else:
         return g
-            
+
+
+    
+# build chaos graph of protein sequence by double amino-acids
+def DAA_chaosGraph(sequences:list):    
+    AminoAcids = 'ARNDCQEGHILKMFPSTWYVX'
+    AA={}
+    for a in AminoAcids:
+        for b in AminoAcids:
+            AA[a+b] = (AminoAcids.index(a)+0.5, AminoAcids.index(b)+0.5)
+    
+    X = []     
+    regexp = re.compile('[^ARNDCQEGHILKMFPSTWYV]')
+    for seq in sequences:
+        seq = regexp.sub('X', seq)
+        x = []
+        x.append((0,0))
+        for i in range(len(seq) - 1):
+            p = AA[seq[i:i+2]]
+            x.append( ((x[i][0] + p[0]) / 2, (x[i][1] + p[1]) / 2))
+        t = np.zeros(shape=(21,21))
+        for i in range(1, len(x)):
+            t[math.floor(x[i][0]), math.floor(x[i][1])] += 1 
+        t /= len(seq)
+        X.append(t)
+     
+    return np.array(X)
+       
 def main():
     #codeTypes = ['MolecularWeight','Hydrophobicity','PK1','PK2','PI']
-    seq = 'SLFEQLGGQAAVQAVTAQFYANIQADATVATFFNGIDMPNQTNKTAAFLCAALGGPNAWTGRNLKEVHAN\
-MGVSNAQFTTVIGHLRSALTGAGVAAALVEQTVAVAETVRGDVVTV'
+    seqs = ['SLFEQLGGQAAVQAVTAQFYANIQADATVATFFNGIDMPNQTNKTAAFLCAALGGPNAWTGRNLKEVHAN\
+MGVSNAQFTTVIGHLRSALTGAGVAAALVEQTVAVAETVRGDVVTV',
+            'LFEQLGGQAAVQAVTAQFYANIQADATVATFFNGIDMPNQTNKTAAFLCAALGGPNAWTGRNLKEVHAN\
+MGVSNAQFTTVIGHLRSALTGAGVAAALVEQTVAVAETVRGDVVTVS']
     seq = 'MDLLAELQWRGLVNQTTDEDGLRKLLNEERVTLYCGFDPTADSLHIGHLATILTMRRFQQAGHRPIALVGGATGLI\
     GDPSGKKSERTLNAKETVEAWSARIKEQLGRFLDFEADGNPAKIKNNYDWIGPLDVITFLRDVGKHFSVNYMMAKESVQSRI\
     ETGISFTEFSYMMLQAYDFLRLYETEGCRLQIGGSDQWGNITAGLELIRKTKGEARAFGLTIPLVTKADGTKFGKTESGTIWL\
     DKEKTSPYEFYQFWINTDDRDVIRYLKYFTFLSKEEIEALEQELREAPEKRAAQKTLAEEVTKLVHGEEALRQAIRIS'
-    #v = greyPseAAC(seq,codeTypes)
-    v = chaosGraph(seq)
-    print(v)
+    X = DAA_chaosGraph(seqs)
     
 if __name__ == "__main__":
     main()
