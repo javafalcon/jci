@@ -1,0 +1,15 @@
+
+
+3/5 cross-validation predict Multi-label EC and Single-label EC:
+5581	0
+180	0
+ACC:0.968755MCC:0.000000
+
+4/5 cross-validation predict Multi-label EC and Single-label EC:
+5581	0
+180	0
+ACC:0.968755MCC:0.000000
+Total cross-validation:
+27907	0
+898	0
+ACC:0.968825MCC:0.000000
