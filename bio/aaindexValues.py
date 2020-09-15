@@ -47,12 +47,12 @@ if __name__ == '__main__':
     
     scaler = StandardScaler()
     aa_scal = scaler.fit_transform(aavals)
-    pca = PCA(n_components=9)
+    pca = PCA(n_components=20)
     aa_pca = pca.fit_transform(aa_scal)
     aaval_dic = {}
     for i in range(20):
         aaval_dic[AminoAcids[i]] = list(aa_pca[i])
-    with open('Amino_Acids_PCAVal9_dict.txt','w') as fw:
+    with open('Amino_Acids_PCAVal20_dict.txt','w') as fw:
         fw.write(str(aaval_dic))
     
         

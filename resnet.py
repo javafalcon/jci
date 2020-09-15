@@ -52,7 +52,7 @@ def resnet_layer(inputs, num_filters, kernel_size=3, strides=1,
         
     return x
 
-def resnet_v1(input_shape, depth, num_classes=2):
+def resnet_v1(input_shape, depth, num_classes=2, include_top=True):
     """ResNet Version 1 Model builder [a]
 
     Stacks of 2 x (3 x 3) Conv2D-BN-ReLU
@@ -105,16 +105,19 @@ def resnet_v1(input_shape, depth, num_classes=2):
             x = layers.add([x, y])
             x = layers.Activation('relu')(x)           
         num_filters *= 2
+            
+    if include_top:
+        # Add classifier on top.
+        # v1 does not use BN after last shortcut connection-ReLU
+        x = layers.GlobalAveragePooling2D()(x)
+        outputs = layers.Dense(num_classes, activation='softmax',
+                           kernel_initializer='he_normal')(x)
+        # Instantiate model
+        model = Model(inputs=inputs, outputs=outputs)
+    else:
+        x = layers.Flattern()(x)
+        model = Model(inputs=inputs, outputs=x)
         
-    # Add classifier on top.
-    # v1 does not use BN after last shortcut connection-ReLU
-    x = layers.GlobalAveragePooling2D()(x)
-    #x = layers.AveragePooling2D()(x)
-    y = layers.Flatten()(x)
-    outputs = layers.Dense(num_classes, activation='softmax',
-                           kernel_initializer='he_normal')(y)
-    # Instantiate model
-    model = Model(inputs=inputs, outputs=outputs)
     return model
 
 def resnet_v2(input_shape, depth, num_classes=10, pool_size=8):

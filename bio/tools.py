@@ -40,3 +40,62 @@ def aa2code(aa:str):
 
     c = code[aa]
     return random.choice(c)
+
+def plot_history(history):
+    import matplotlib.pyplot as plt
+    #%matplotlib inline
+    acc = history.history['accuracy']
+    val_acc = history.history['val_accuracy']
+    loss = history.history['loss']
+    val_loss = history.history['val_loss']
+    
+    epochs = range(1, len(acc) + 1)
+    
+    # "bo" is for "blue dot"
+    plt.plot(epochs, loss, 'bo', label='Training loss')
+    # b is for "solid blue line"
+    plt.plot(epochs, val_loss, 'b', label='Validation loss')
+    plt.title('Training and validation loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.legend()
+    
+    plt.show()
+    
+    plt.clf()   # clear figure    
+    plt.plot(epochs, acc, 'bo', label='Training acc')
+    plt.plot(epochs, val_acc, 'b', label='Validation acc')
+    plt.title('Training and validation accuracy')
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    
+    plt.show()
+    
+def displayMetrics(y_true, y_score, threshold=0.5):
+    from sklearn import metrics
+    y_pred = (y_score > threshold).astype(float)
+    cm = metrics.confusion_matrix(y_true, y_pred)
+    print("confusion_matrix:\n", cm)
+    acc = metrics.accuracy_score(y_true, y_pred)
+    print("accuracy:", acc)
+    mcc = metrics.matthews_corrcoef(y_true, y_pred)
+    print("MCC:", mcc)
+    auc = metrics.roc_auc_score(y_true, y_score)
+    print("AUC:", auc)
+
+def displayMLMetrics(y_true, y_pred, fileName, info):
+    # output Multi-lable classifier's Metrics
+    from sklearn import metrics
+    with open(fileName, 'a') as fw:
+        fw.write(info)
+        fw.write("hamming loss = {}\n".format(metrics.hamming_loss(y_true, y_pred)))
+        fw.write("subset accuracy = {}\n".format( metrics.accuracy_score(y_true, y_pred)))
+        fw.write("macro average precision_score: {}\n".format(metrics.average_precision_score(y_true,y_pred,average="macro")))
+        fw.write("micro average precisioin_score: {}\n".format(metrics.average_precision_score(y_true,y_pred,average="micro")))
+    
+    
+    
+    
+    
+    
