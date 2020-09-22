@@ -26,16 +26,23 @@ def get_angles(pos, i, embed_dim):
         第pos位置上对应矢量的长度.
 
     """
-    angel_rates = 1 / np.power(10000, (2 * (i // 2)) / np.float32(embed_dim))
-    return pos * angel_rates
+    angel_rates = 1 / np.power(10000, (2 * i) / np.float32(embed_dim))
+    return abs(pos) * angel_rates
 
 def position_encoding(position, embed_dim):
     angel_rads = get_angles(np.arange(-position,position+1)[:, np.newaxis], 
                             np.arange(embed_dim)[np.newaxis, :], 
                             embed_dim)
-    sines = np.sin(angel_rads[:, 0::2])
-    cones = np.cos(angel_rads[:, 1::2])
-    pos_encoding = np.concatenate([sines, cones], axis=-1)
+    #sines = np.sin(angel_rads[:, 0::2])
+    #cones = np.cos(angel_rads[:, 1::2])
+    #pos_encoding = np.concatenate([sines, cones], axis=-1)
+    pos_encoding = np.zeros(angel_rads.shape)
+    for i in range(embed_dim):
+        if i%2==0:
+            pos_encoding[:,i] = np.sin(angel_rads[:,i])
+        else:
+            pos_encoding[:,i] = np.cos(angel_rads[:,i])
+    
     pos_encoding = pos_encoding[np.newaxis, ...]
     return tf.cast(pos_encoding, dtype=tf.float32)
 
@@ -159,10 +166,11 @@ class Encoder(layers.Layer):
         self.dropout = layers.Dropout(dropout_rate)
         
     def call(self, inputs, training, mask):
-        seq_len = inputs.shape[-1]
-        word_emb = self.embedding(inputs)       
+        #seq_len = inputs.shape[-1]
+        word_emb = self.embedding(inputs)      
+        
         #word_emb *= (tf.cast(self.d_model, tf.float32))
-        emb = word_emb + self.pos_embedding[:, :seq_len, :]
+        emb = word_emb + self.pos_embedding
         x = self.dropout(emb, training=training)
     
         for i in range(self.n_layers):

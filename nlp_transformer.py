@@ -30,7 +30,7 @@ def get_angles(pos, i, embed_dim):
     return pos * angel_rates
 
 def position_encoding(position, embed_dim):
-    angel_rads = get_angles(np.arange(position)[:, np.newaxis], 
+    angel_rads = get_angles(np.arange(-position,position+1)[:, np.newaxis], 
                             np.arange(embed_dim)[np.newaxis, :], 
                             embed_dim)
     sines = np.sin(angel_rads[:, 0::2])
