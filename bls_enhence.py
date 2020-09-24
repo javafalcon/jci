@@ -195,29 +195,32 @@ class broadnet_enhence:
         test_inputdata = self.transform(data) 
         return self.decode(test_inputdata.dot(self.W)) 
     
-
-iris=load_iris()
-X = iris.data
-Y = iris.target
-traindata,testdata,trainlabel,testlabel = train_test_split(X,Y,test_size=0.2,random_state = 2018)
-#print(traindata.shape,trainlabel.shape,testdata.shape,testlabel.shape)
-
-#data = pd.read_excel('/Users/zhuxiaoxiansheng/Desktop/日常/数据集/糖尿病数据集.xlsx')
-#label = np.mat(data['标签'].values)
-#data = data.drop('标签',axis = 1)
-#traindata,testdata,trainlabel,testlabel = train_test_split(data.values,np.ravel(label),test_size=0.2,random_state = 2018)
-
-bls = broadnet_enhence(maptimes = 10, 
-                       enhencetimes = 10,
-                       traintimes = 10,
-                       map_function = 'tanh',
-                       enhence_function = 'sigmoid',
-                       batchsize = 1, 
-                       acc = 1,
-                       step = 5,
-                       reg = 0.001)
-
-bls.fit(traindata,trainlabel)
-predictlabel = bls.predict(testdata)
-print(show_accuracy(predictlabel,testlabel))
+def main():
+    iris=load_iris()
+    X = iris.data
+    Y = iris.target
+    traindata,testdata,trainlabel,testlabel = train_test_split(X,Y,test_size=0.2,random_state = 2018)
+    #print(traindata.shape,trainlabel.shape,testdata.shape,testlabel.shape)
+    
+    #data = pd.read_excel('/Users/zhuxiaoxiansheng/Desktop/日常/数据集/糖尿病数据集.xlsx')
+    #label = np.mat(data['标签'].values)
+    #data = data.drop('标签',axis = 1)
+    #traindata,testdata,trainlabel,testlabel = train_test_split(data.values,np.ravel(label),test_size=0.2,random_state = 2018)
+    
+    bls = broadnet_enhence(maptimes = 10, 
+                           enhencetimes = 10,
+                           traintimes = 10,
+                           map_function = 'tanh',
+                           enhence_function = 'sigmoid',
+                           batchsize = 1, 
+                           acc = 1,
+                           step = 5,
+                           reg = 0.001)
+    
+    bls.fit(traindata,trainlabel)
+    predictlabel = bls.predict(testdata)
+    print(show_accuracy(predictlabel,testlabel))
+    
+if __name__ == "__main__":
+    main()
 

@@ -60,7 +60,7 @@ def getPSSMFiles(fastafile,outfileprefix='',dbName='swissprot'):
                         col += 1
                     line = line + '\n'
                     pw.writelines(line)
-
+         
 # save each PSSM file as CSV file format. Each element is string          
 def savePSSMFile2CSV(pssmfilesdir, csvfilesdir):
     listfile = os.listdir(pssmfilesdir)
@@ -190,10 +190,8 @@ def create_padding_pssm_mask(filename, padding_position="post", maxlen=1000):
     return 1/(1 + np.exp(padding_pssm)), np.array(mask)
         
             
-"""
-fastafile = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/TargetDNA/PDNA-543_sequence.fasta'
-outdir = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA543_PSSM/'
+fastafile = 'e:/Repoes/PDNA_CNN/PDNA_Data/TargetDNA/PDNA-543_sequence.fasta'
+outdir = 'e:/Repoes/PDNA_CNN/PDNA_Data/PDNA543_PSSM/'
 getPSSMFiles(fastafile, outdir)
-"""
 #x,mask=create_padding_pssm_mask("E:/Repoes/Enzyme/pssm/test/P0DKX6.txt", maxlen=700)
 

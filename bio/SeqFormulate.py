@@ -304,7 +304,9 @@ def AACode(amino_acid,codeType,norm=False):
     #norm_PI 
     normNumCode["PI"] = [-0.1033, 2.2014, 2.2014, -1.6547, -0.6436, -0.3313, -1.6051, -0.1281, 0.6550, -0.1380, -0.1380, 1.5620,
         -0.2867, -0.2025, -0.0092, -0.3165, -0.3561, -0.2173, -0.3412, -0.1479]
-    
+    # Accessible surface area
+    numCode["ASE"] = [93.7, 250.4, 146.3, 142.6, 135.2, 177.7, 182.9, 52.6, 188.1, 182.2, 173.7, 215.2,
+                      197.6, 228.6,  0., 109.5, 142.1, 271.6, 239.9, 157.2]
     text = "ARNDCQEGHILKMFPSTWYV"
     if norm:
         t = normNumCode[codeType]       
@@ -322,7 +324,7 @@ from greymodel import GMParam
 import math
 def greyPseAAC(seq, codeTypes, weight=None, model=1, norm=False):
     seq = seq.upper()
-    seq = re.sub('[XZUB]',"",seq)
+    seq = re.sub('[#XZUB]',"",seq)
     seq = seq.strip()
     
     n = len(seq)
@@ -335,8 +337,11 @@ def greyPseAAC(seq, codeTypes, weight=None, model=1, norm=False):
     for codeType in codeTypes:
         x = []
         for a in seq:
-            e = math.exp(-AACode(a, codeType, norm))
-            x.append(1/(1+e))
+            if norm:
+                e = math.exp(-AACode(a, codeType, norm))
+                x.append(1/(1+e))
+            else:
+                x.append(AACode(a, codeType, norm))
         gp = GMParam(x,model)
         for p in gp:
             pseaac.append(abs(p))
