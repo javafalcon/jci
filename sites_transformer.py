@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+bi# -*- coding: utf-8 -*-
 """
 Created on Tue Aug 25 09:15:27 2020
 
@@ -26,15 +26,15 @@ def get_angles(pos, i, embed_dim):
         第pos位置上对应矢量的长度.
 
     """
-    angel_rates = 1 / np.power(10000, (2 * i) / np.float32(embed_dim))
+    angel_rates = 1 / np.power(10000, (2 * (i//2)) / np.float32(embed_dim))
     return pos * angel_rates
 
 def position_encoding(position, embed_dim):
     angel_rads = get_angles(np.arange(-position,position+1)[:, np.newaxis], 
                             np.arange(embed_dim)[np.newaxis, :], 
                             embed_dim)
-    #sines = np.sin(angel_rads[:, 0::2])
-    #cones = np.cos(angel_rads[:, 1::2])
+    sines = np.sin(angel_rads[:, 0::2])
+    cones = np.cos(angel_rads[:, 1::2])
     #pos_encoding = np.concatenate([sines, cones], axis=-1)
     pos_encoding = np.zeros(angel_rads.shape)
     for i in range(embed_dim):
@@ -159,18 +159,21 @@ class Encoder(layers.Layer):
         
         self.n_layers = n_layers
         self.d_model = d_model
+        self.seq_len = seq_len
         self.embedding = layers.Embedding(input_vocab_size, d_model)
-        self.pos_embedding = position_encoding(seq_len//2, d_model)
+        #self.pos_embedding = position_encoding(seq_len//2, d_model)
+        self.pos_embedding = layers.Embedding(seq_len//2+1, d_model)
         self.encoder_layer = [EncoderLayer(d_model, n_heads, ffd, dropout_rate)
                               for _ in range(n_layers)]
         self.dropout = layers.Dropout(dropout_rate)
         
     def call(self, inputs, training, mask):
-        #seq_len = inputs.shape[-1]
         word_emb = self.embedding(inputs)      
-        
+        positions = tf.range(start=0, limit=self.seq_len//2+1, delta=1)
+        positions = self.pos_embedding(positions)
+        positions = tf.keras.backend.concatenate((-positions[:0:-1], positions), axis=0)
         #word_emb *= (tf.cast(self.d_model, tf.float32))
-        emb = word_emb + self.pos_embedding
+        emb = word_emb + positions
         x = self.dropout(emb, training=training)
     
         for i in range(self.n_layers):
