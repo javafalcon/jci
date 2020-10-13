@@ -23,20 +23,47 @@ def protseq_to_vec(seqs, padding_position="post",  maxlen=1000):
     -------
     X : numpy.array.
     """
-    amino_acids = "ARNDCQEGHILKMFPSTWYVX"
-    regexp = re.compile('[^ARNDCQEGHILKMFPSTWYVX]')
+    amino_acids = "#ARNDCQEGHILKMFPSTWYVX"
+    regexp = re.compile('[^#ARNDCQEGHILKMFPSTWYVX]')
     X = []
     for i in range(len(seqs)):
         seq = seqs[i]
         seq = regexp.sub('X', seq)
         # 把蛋白质序列按氨基酸转换为数字编码
-        t = [22] # 22 是序列开始标识
+        #t = [22] # 22 是序列开始标识
+        t = []
         for a in seq:
-            t.append(amino_acids.index(a)+1)
-        t.append(23) # 23是序列结束表示    
+            t.append(amino_acids.index(a))
+        #t.append(23) # 23是序列结束表示    
         X.append(t)
     if padding_position is not None:
         X = keras.preprocessing.sequence.pad_sequences(X, maxlen=maxlen,
                                                          padding=padding_position,
                                                          truncating=padding_position)   
     return X
+
+def multi_instances_split(protSeq, num_fragment=5):
+    """
+    对蛋白质序列protSeq划分为5个示例, 划分的位置位于20%, 40%, 60%, 80%。
+    
+    Parameters
+    ----------
+    protSeq : str
+        蛋白质序列/核酸序列.
+    num_fragment : int
+        片段的数量，默认值=5
+
+    Returns
+    -------
+    prot_frag_list.
+
+    """
+    ls_prot_fragments = []
+    L = len(protSeq)
+    start_index, end_index = 0, 0
+    for i in range(1, num_fragment+1):
+        start_index = end_index
+        end_index = (L * i)//num_fragment
+        ls_prot_fragments.append(protSeq[start_index: end_index])
+    return ls_prot_fragments
+
