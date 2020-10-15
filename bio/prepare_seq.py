@@ -65,7 +65,8 @@ def multi_instances_split(protSeqs, num_fragment=5):
     ls_prot_fragments = []
     for protSeq in protSeqs:
         t = []
-        ps = protSeq.numpy
+        ps = protSeq.numpy()
+        ps = bytes.decode(ps, encoding='utf-8')
         L = len(ps)
         start_index, end_index = 0, 0
         for i in range(1, num_fragment+1):
