@@ -6,6 +6,8 @@ Created on Thu Oct 17 10:35:47 2019
 """
 
 from Bio import SeqIO
+import numpy as np
+
 def uniprotSeqs():
     uniprot_seqs_dict = {}
     for seq_record in SeqIO.parse('uniprot_sprot.fasta', 'fasta'):
@@ -94,8 +96,26 @@ def displayMLMetrics(y_true, y_pred, fileName, info):
         fw.write("macro average precision_score: {}\n".format(metrics.average_precision_score(y_true,y_pred,average="macro")))
         fw.write("micro average precisioin_score: {}\n".format(metrics.average_precision_score(y_true,y_pred,average="micro")))
     
+def plot_cm(labels, predictions, p=0.5):
+    from sklearn.metrics import confusion_matrix
+    #import matplotlib as mpl
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    #mpl.rcParams['figure.figsize'] = (12, 10)
+    #colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+    cm = confusion_matrix(labels, predictions > p)
+    plt.figure(figsize=(5,5))
+    sns.heatmap(cm, annot=True, fmt="d")
+    plt.title('Confusion matrix @{:.2f}'.format(p))
+    plt.ylabel('Actual label')
+    plt.xlabel('Predicted label')
     
-    
-    
+    print('Legitimate Transactions Detected (True Negatives): ', cm[0][0])
+    print('Legitimate Transactions Incorrectly Detected (False Positives): ', cm[0][1])
+    print('Fraudulent Transactions Missed (False Negatives): ', cm[1][0])
+    print('Fraudulent Transactions Detected (True Positives): ', cm[1][1])
+    print('Total Fraudulent Transactions: ', np.sum(cm[1]))    
+      
+      
     
     
