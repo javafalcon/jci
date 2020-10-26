@@ -11,8 +11,10 @@ from Bio import SeqIO
 import scipy.io as sio
 import csv
 import os
+import numpy as np
+import math
 
-blosum = sio.loadmat('blosum.mat')
+blosum = sio.loadmat('e:/repoes/jci/bio/blosum.mat')
 blosumMatrix = blosum['blosum62']
 alphabet = 'ARNDCQEGHILKMFPSTWYVBZX*'
 
@@ -58,7 +60,7 @@ def getPSSMFiles(fastafile,outfileprefix='',dbName='swissprot'):
                         col += 1
                     line = line + '\n'
                     pw.writelines(line)
-
+         
 # save each PSSM file as CSV file format. Each element is string          
 def savePSSMFile2CSV(pssmfilesdir, csvfilesdir):
     listfile = os.listdir(pssmfilesdir)
@@ -117,6 +119,79 @@ def getPSSMMatFileFromFastafile( dirname, fastafile, matfilename, dbName='swissp
     # save to mat file
     sio.savemat(matfilename, pssm)
 
-fastafile = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/TargetDNA/PDNA-543_sequence.fasta'
-outdir = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA543_PSSM/'
+# read pssm file, return numpy.array
+def readPSSMFile(filename):
+    pssm = []
+    with open(filename, 'r') as fr:
+        ls = fr.readlines()
+        for ln in ls[3:]:
+            t = []
+            ln = ln.strip()
+            if not len(ln):
+                break
+            strval = ln.split()
+            
+            for i in range(2, 22):
+                t.append(1/(1 + math.exp(-eval(strval[i]))))
+            
+            pssm.append(t)
+    return np.array(pssm)
+
+# 读filenmae文件中的PSSM矩阵，序列最大长度maxlen，如果序列长度小于maxlen,则填充-10
+# 以-2.95作为序列开始标志（原因：1/(1+exp(2.95) ~ 0.05
+# 以11为序列结束标志
+# 由于填充了【开始】，【结束】标志，其实最多只从PSSM序列中读取maxlen-2行
+def create_padding_pssm_mask(filename, padding_position="post", maxlen=1000):
+    pssm = []
+    startln =  np.ones((20,)) * (2.95)
+    endln = np.ones((20,))  * (-11)
+    paddln = np.ones((20,)) * (10)
+    
+    # 把PSSM矩阵读到pssm列表
+    with open(filename, 'r') as fr:
+        ls = fr.readlines()
+        for ln in ls[3:]:
+            t = []
+            ln = ln.strip()
+            if not len(ln):
+                break
+            strval = ln.split()
+            
+            for i in range(2, 22):
+                t.append(-eval(strval[i]))
+            
+            pssm.append(t)
+    
+    # 截取maxlen行，或填充到maxlen行
+    padding_pssm = []
+    mask = []
+    if len(pssm) >= maxlen-2: # 不要填充
+        padding_pssm.append(startln)      
+        padding_pssm += pssm[:maxlen-2]
+        padding_pssm.append(endln)
+        mask = [0 for _ in range(maxlen)]
+    else: # 需要填充
+        # 计算要填充的行数
+        n = maxlen - len(pssm) - 2
+        if padding_position == "post":
+            padding_pssm.append(startln)
+            padding_pssm = padding_pssm + pssm
+            padding_pssm.append(endln)
+            for _ in range(n):
+                padding_pssm.append(paddln)
+            mask = [0 for _ in range(len(pssm) + 2)] + [1 for _ in range(n)]
+        elif padding_position == "pre":
+            for _ in range(n):
+                padding_pssm.append(paddln)
+            padding_pssm.append(startln)
+            padding_pssm = padding_pssm + pssm
+            padding_pssm.append(endln)
+            mask = [1 for _ in range(n)] + [0 for _ in range(len(pssm) + 2)]
+    return 1/(1 + np.exp(padding_pssm)), np.array(mask)
+        
+            
+fastafile = 'e:/Repoes/PDNA_CNN/PDNA_Data/TargetDNA/PDNA-543_sequence.fasta'
+outdir = 'e:/Repoes/PDNA_CNN/PDNA_Data/PDNA543_PSSM/'
 getPSSMFiles(fastafile, outdir)
+#x,mask=create_padding_pssm_mask("E:/Repoes/Enzyme/pssm/test/P0DKX6.txt", maxlen=700)
+
