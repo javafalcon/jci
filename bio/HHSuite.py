@@ -13,8 +13,10 @@ import numpy as np
 
 def getHHSuiteFiles(fastafile, outdir="."):
     inputfile = 'input.fasta'
+    i = 1
     for seq_record in SeqIO.parse(fastafile, 'fasta'):
-        print("\r{}".format(seq_record.id), end="")
+        print("\r{}-{}".format(i, seq_record.id), end="")
+        i += 1
         if os.path.exists(inputfile):
             os.remove(inputfile)
         SeqIO.write(seq_record, inputfile, 'fasta')
@@ -22,7 +24,8 @@ def getHHSuiteFiles(fastafile, outdir="."):
         hitresult = os.path.join(outdir, seq_record.id)
         if os.path.exists(hitresult):
             os.remove(hitresult)
-            
+            continue
+        #hhblits -d /home/weizhong/software/hh-suite/uniclust30_2018_08/uniclust30_2018_08 -ohhm /home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA224_hhm/1A02_F -i input.fasta -v 0 -maxres 40000 -cpu 4 -Z 0     
         #cmd = ["hhblits", "-i", inputfile, "-o", hitresult, "-n", "1", "-d", "/home/weizhong/software/hh-suite/uniclust30_2018_08/uniclust30_2018_08"]
         cmd = ['hhblits -d /home/weizhong/software/hh-suite/uniclust30_2018_08/uniclust30_2018_08 -ohhm', hitresult, '-i', inputfile, '-v 0 -maxres 40000 -cpu 4 -Z 0'] 
         cmd = " ".join(cmd)
@@ -63,14 +66,21 @@ def read_hhm(hhm_file):
     # return (''.join(seq),prob,extras)
     return (seq, np.concatenate((prob, extras), axis=1))
 if __name__ == "__main__":
-    fastafile = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/TargetDNA/PDNA-TEST_sequence.fasta'
-    outdir = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA543_hhm'
-    #getHHSuiteFiles(fastafile,outdir)
+    #fastafile = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/TargetDNA/PDNA-TEST_sequence.fasta'
+    #outdir = '/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA543_hhm'
+    fastafile = '/home/weizhong/Repoes/Enzyme/data/EC_40.fasta'
+    outdir = '/home/weizhong/Repoes/Enzyme/data/EC_40_hhm'
+    getHHSuiteFiles(fastafile,outdir)
+    
+    fastafile = '/home/weizhong/Repoes/Enzyme/data/NotEC_40.fasta'
+    outdir = '/home/weizhong/Repoes/Enzyme/data/NotEC_40_hhm'
+    getHHSuiteFiles(fastafile,outdir)
+    
     #a = readHhsuiteProfile(os.path.join(outdir,'1A0A_A'))
-    files = os.listdir(outdir)
+    """files = os.listdir(outdir)
     lshhm = []
     for f in files:
         hhm_file = os.path.join(outdir, f)
         lshhm.append(read_hhm(hhm_file))
-    np.save('/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA543_hhm.npy', lshhm)
+    np.save('/home/weizhong/Repoes/PDNA_CNN/PDNA_Data/PDNA224_hhm.npy', lshhm)"""
         
