@@ -61,16 +61,32 @@ def displayMetrics(y_true, predicted_Probability, noteinfo, metricsFile):
         
         
 class SemisupLearner:
-    def __init__(self, modelFile, model, **ssparam):
+    def __init__(self, modelFile, model, **ssparam, 
+                 earlystopping=None, 
+                 modelcheckpoint=None, 
+                 metrics=['accuracy']):
         self.weight = K.variable(0.)
         self.modelFile = modelFile       
         self.ssparam = ssparam
+        self.metrics = metrics
+        if earlystopping is not None:
+            self.earlystopping = earlystopping
+        else:
+            self.earlystopping = 
+                        callbacks.EarlyStopping(patience=self.ssparam['patience'])
+        if modelcheckpoint is not None:
+            self.modelcheckpoint = modelcheckpoint
+        else:
+            self.modelcheckpoint = 
+                                callbacks.ModelCheckpoint(filepath=self.modelFile,
+                                                         save_weights_only=True,
+                                                         save_best_only=True)
         layer = model.get_layer('unsupLayer')
         loss2 = semisup_loss(layer.get_output_at(0), layer.get_output_at(1))
         model.compile(loss=[sup_loss, loss2], loss_weights=[1, self.weight],
                      optimizer=optimizers.Adam(learning_rate=ssparam['learning_rate']), 
                      #experimental_run_tf_function = False,
-                     metrics=['accuracy']) 
+                     metrics=metrics) 
         self.model = model
     def train(self):
         print('Use jci/semisupLearning_kears.py Training...')
@@ -84,10 +100,9 @@ class SemisupLearner:
                               epochs=self.ssparam['epochs'],
                               validation_data=[self.ssparam['x_vldt'], self.ssparam['y_vldt']],
                               callbacks=[ssCallback,
-                                         callbacks.EarlyStopping(patience=self.ssparam['patience']),
-                                         callbacks.ModelCheckpoint(filepath=self.modelFile,
-                                                         save_weights_only=True,
-                                                         save_best_only=True)]
+                                         self.earlystopping,
+                                         self.modelcheckpoint
+                                         ]
             )
         else:
             self.model.fit(self.ssparam['x_train'], self.ssparam['y_train'],
@@ -95,10 +110,8 @@ class SemisupLearner:
                               epochs=self.ssparam['epochs'],
                               validation_split=0.1,
                               callbacks=[ssCallback,
-                                         callbacks.EarlyStopping(patience=self.ssparam['patience']),
-                                         callbacks.ModelCheckpoint(filepath=self.modelFile,
-                                                         save_weights_only=True,
-                                                         save_best_only=True)]
+                                         self.earlystopping,
+                                         self.modelcheckpoint]
             )
                          
     def predict(self, x_test):
