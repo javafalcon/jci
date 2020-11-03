@@ -23,7 +23,7 @@ from SemisupCallback import SemisupCallback
 ## Define loss functions
 def sup_loss(y_true, y_pred):  
     m = K.sum(y_true, axis=-1)
-    return  K.switch(K.equal(K.sum(y_true), 0), 0., K.sum(K.categorical_crossentropy(K.tf.boolean_mask(y_true,m), K.tf.boolean_mask(y_pred,m), from_logits=True)) / K.sum(y_true))
+    return  K.switch(K.equal(K.sum(y_true), 0), 0., K.sum(K.categorical_crossentropy(tf.boolean_mask(y_true,m), tf.boolean_mask(y_pred,m), from_logits=True)) / K.sum(y_true))
 
 def semisup_loss(o1, o2):
     def los(y_true, y_pred):
@@ -61,31 +61,28 @@ def displayMetrics(y_true, predicted_Probability, noteinfo, metricsFile):
         
         
 class SemisupLearner:
-    def __init__(self, modelFile, model, **ssparam, 
-                 earlystopping=None, 
+    def __init__(self, modelFile, model, ssparam, earlystop=None, 
                  modelcheckpoint=None, 
                  metrics=['accuracy']):
         self.weight = K.variable(0.)
         self.modelFile = modelFile       
         self.ssparam = ssparam
         self.metrics = metrics
-        if earlystopping is not None:
-            self.earlystopping = earlystopping
+        if earlystop is not None:
+            self.earlystop = earlystop
         else:
-            self.earlystopping = 
-                        callbacks.EarlyStopping(patience=self.ssparam['patience'])
+            self.earlystop = callbacks.EarlyStopping(patience=self.ssparam['patience'])
         if modelcheckpoint is not None:
             self.modelcheckpoint = modelcheckpoint
         else:
-            self.modelcheckpoint = 
-                                callbacks.ModelCheckpoint(filepath=self.modelFile,
+            self.modelcheckpoint = callbacks.ModelCheckpoint(filepath=self.modelFile,
                                                          save_weights_only=True,
                                                          save_best_only=True)
         layer = model.get_layer('unsupLayer')
         loss2 = semisup_loss(layer.get_output_at(0), layer.get_output_at(1))
         model.compile(loss=[sup_loss, loss2], loss_weights=[1, self.weight],
                      optimizer=optimizers.Adam(learning_rate=ssparam['learning_rate']), 
-                     #experimental_run_tf_function = False,
+                     experimental_run_tf_function = False,
                      metrics=metrics) 
         self.model = model
     def train(self):
@@ -100,7 +97,7 @@ class SemisupLearner:
                               epochs=self.ssparam['epochs'],
                               validation_data=[self.ssparam['x_vldt'], self.ssparam['y_vldt']],
                               callbacks=[ssCallback,
-                                         self.earlystopping,
+                                         self.earlystop,
                                          self.modelcheckpoint
                                          ]
             )
@@ -110,7 +107,7 @@ class SemisupLearner:
                               epochs=self.ssparam['epochs'],
                               validation_split=0.1,
                               callbacks=[ssCallback,
-                                         self.earlystopping,
+                                         self.earlystop,
                                          self.modelcheckpoint]
             )
                          

@@ -54,12 +54,15 @@ def getHomoProteinsByHMMER(seqrecord):
 
     return homoProtein
 
-def buildFunctionDomainSet(dataFile):
-    uniprot_seqs_dict = {}
-    for uniprot_seq_record in SeqIO.parse('uniprot_sprot.fasta', 'fasta'):
-        uniprot_seqs_dict[uniprot_seq_record.id] = str(uniprot_seq_record.seq)
+def buildFunctionDomainSet(dataFile, seqs_dict=False):
+    if seqs_dict:
+        uniprot_seqs_dict = sio.loadmat('uniprot_seqs_dict.mat')
+    else:
+        uniprot_seqs_dict = {}
+        for uniprot_seq_record in SeqIO.parse('uniprot_sprot.fasta', 'fasta'):
+            uniprot_seqs_dict[uniprot_seq_record.id] = str(uniprot_seq_record.seq)
+        
     
-    #uniprot_seqs_dict = sio.loadmat('uniprot_seqs_dict.mat')
     pfams = {}
     hmmscanCMD = 'hmmscan -o out.txt --tblout fmout.tbl --acc --noali Pfam-A.hmm input.fasta'
     num_total = 1
@@ -114,16 +117,23 @@ def buildFunctionDomainSet(dataFile):
     return pfams
 
 # example of usage
-def main():
-    '''seqdata ='SLFEQLGGQAAVQAVTAQFYANIQADATVATFFNGIDMPNQTNKTAAFLCAALGGPNAWTGRNLKEVHAN\
-MGVSNAQFTTVIGHLRSALTGAGVAAALVEQTVAVAETVRGDVVTV'
+if __name__ == "__main__":
+    """
+    seqdata ="".joint(['SLFEQLGGQAAVQAVTAQFYANIQADATVATFFNGIDMPNQTNKTAAFLCAALGGPNAWTGRNLKEVHAN', 
+                       'MGVSNAQFTTVIGHLRSALTGAGVAAALVEQTVAVAETVRGDVVTV'])
     head = 'd1d1wa'
     seq = Seq(seqdata, IUPAC.ExtendedIUPACProtein)
     seqrecord = SeqRecord(seq, id=head)
     homoProtein = getHomoProteinsByHMMER(seqrecord)
-    print(homoProtein)'''
+    print(homoProtein)
+    """
+    
+    pfams = buildFunctionDomainSet(r'/home/weizhong/Repoes/RemoteHomology/program/3187seqs.fasta')
+    #sio.savemat('independent_pfams.mat',pfams)
+    import pickle as pk
+    with open('3187_pfams.data', 'wb') as f:
+        pk.dump(pfams, f)
     
     
-pfams = buildFunctionDomainSet(r'E:\Repoes\jcilwz\RemoteHomology\program\scope_independent.fa')
-sio.savemat('independent_pfams.mat',pfams)
+        
     
